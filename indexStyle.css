@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700');
-
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i');
 
 html{
 
@@ -27,17 +27,18 @@ body{
 .ui-button__button{
 	height: 32px;
 	min-width: 72px;
-	padding: 0 18px;
+	padding: 0 20px;
 	border: 2px solid #232528;
 	color: #232528;
 	background: transparent;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Raleway', sans-serif;
 	font-size: 14px;
 	font-weight: 600;
 	text-transform: uppercase;
 	overflow: hidden;
 	cursor: pointer;
   	text-decoration: none;
+  	border: 2px solid transparent;
   	transition: box-shadow 0.25s ease-out, background-color 0.25s ease-out, color 0.25s ease-out;
 }
 
@@ -52,10 +53,6 @@ body{
 .ui-button__button:focus {
     outline: none; 
 }
-
-.ui-button:focus:not(:active) {
-    background: transparent;
-}
   
 .ui-button__button:active {
 	background-color: rgba(35,37,40, 0.4);
@@ -63,44 +60,49 @@ body{
 
 
 
-.ui-button__button--flat{
+.ui-button__button_flat{
 	border: 2px solid transparent;
 	background: transparent;
 	box-shadow: none;
 }
 
-.ui-button__button--flat:focus:not(:active) {
-    background: rgba(255, 255, 255, 0.8);
-}
-
-.ui-button__button--flat:active {
+.ui-button__button_flat:active {
     background-color: rgba(35,37,40, 0.4);
 }
 
 
 
 
-.ui-button__button--raised{
+.ui-button__button_raised{
 	border: 2px solid #232528;
 	background: rgba(255, 255, 255, 0.8);
 	box-shadow: 0 2px 2px 0 rgba(35, 37, 40, 0.32), 1px 0 1px -2px rgba(35, 37, 40, 0.2);
 }
 
-.ui-button__button--raised:focus:not(:active) {
-    box-shadow: 0 2px 2px 0 rgba(35, 37, 40, 0.32), 1px 0 3px -2px rgba(35, 37, 40, 0.2);
-    background: rgba(255, 255, 255, 0.8);
-}
-
-.ui-button__button--raised:active {
+.ui-button__button_raised:active {
 	box-shadow: 0 5px 4px rgba(35, 37, 40, 0.32);
     background-color: rgba(35,37,40, 0.4);
     border: 2px solid rgba(35,37,40, 0);
 }
 
 
+.ui-button__button_round{
+	border-radius: 16px;
+	transform: translate3d(0, 0, 0); /* For Ripple effect */
+}
+
+.ui-button__button_transparent{
+	background: transparent;
+}
+
+
 .ui-ripple{
 	overflow: hidden;
 	position:relative;
+}
+
+.ui-button__button_round.ui-ripple{
+	border-radius: 16px;
 }
 
 .ui-ripple__effect{
@@ -133,7 +135,7 @@ body{
   	box-shadow: none;
 }
 
-.ui-button__button--raised[ui-disabled]{
+.ui-button__button_raised[disabled]{
 	color: rgba(35,37,40, 0.3);
   	cursor: default;
   	background-color: rgba(35,37,40, 0.15);
