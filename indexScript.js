@@ -25,7 +25,7 @@
 
         window.setTimeout(function(){
           div.remove();
-        }, 1000);
+        }, 800);
 
     }); 
   }
