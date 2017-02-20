@@ -105,13 +105,24 @@ body{
 	border-radius: 16px;
 }
 
-.ui-ripple__effect{
+.ui-ripple:after {
+	content: '';
 	position: absolute;
+	left: 50%;
+  	top: 50%;
 	border-radius: 50%;
-	width: 50px;
-	height: 50px;
+	width: 1px;
+	height: 1px;
 	background: #232528;
-	animation: ripple-animation 1s;
+	visibility: hidden;
+}
+
+.ui-ripple:focus:after {
+  visibility: visible;
+}
+
+.ui-ripple:not(:active):after {
+  animation: ripple-animation 1s ease-out;
 }
 
 @keyframes ripple-animation {
@@ -120,7 +131,7 @@ body{
       opacity: 0.4;
     }
     to {
-      transform: scale(100);
+      transform: scale(500);
       opacity: 0;
     }
 }
