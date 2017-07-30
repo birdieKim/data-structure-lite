@@ -1,0 +1,19 @@
+{
+  "name": "birdie",
+  "version": "1.0.0",
+  "description": "UI project",
+  "main": "lib.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/birdieKim/UI-Bird.git"
+  },
+  "author": "Birdie Yaejin Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/birdieKim/UI-Bird/issues"
+  },
+  "homepage": "https://github.com/birdieKim/UI-Bird#readme"
+}
