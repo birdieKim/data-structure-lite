@@ -2,9 +2,9 @@
   "name": "birdie",
   "version": "1.0.0",
   "description": "UI project",
-  "main": "lib.js",
+  "main": "src/entry.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack && webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/birdieKim/UI-Bird/issues"
   },
-  "homepage": "https://github.com/birdieKim/UI-Bird#readme"
+  "homepage": "https://github.com/birdieKim/UI-Bird#readme",
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.18.2",
+    "webpack-dev-server": "^2.6.1"
+  },
+  "dependencies": {
+    "less": "^2.7.2"
+  }
 }
