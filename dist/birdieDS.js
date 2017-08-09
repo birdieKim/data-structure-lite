@@ -60,7 +60,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9b75f043613bb68efd92"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "8396f429ead279487c2f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -727,6 +727,13 @@ module.exports = __webpack_require__(1);
 /* 1 */
 /***/ (function(module, exports) {
 
+function plus(num1, num2) {
+  return num1 + num2;
+}
+
+function minus(num1, num2) {
+  return num1 - num2;
+}
 
 
 /***/ })

@@ -4,7 +4,8 @@
   "description": "UI project",
   "main": "src/entry.js",
   "scripts": {
-    "dev": "webpack && webpack-dev-server"
+    "test": "webpack && webpack-dev-server",
+    "prod": "webpack"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
-    "less": "^2.7.2"
+    "less": "^2.7.2",
+    "qunitjs": "^2.4.0"
   }
 }
