@@ -41,14 +41,14 @@ LinkedList.prototype.add = function(data) {
  */
 LinkedList.prototype.insert = function(data, index) {
   var inserted_node = new Node(data);
-  var p = this.head;
+  var iterater = this.head;
 
   for(var i = 0; i < index-1; i++) {
-    p = p.next;
+    iterater = p.next;
   }
 
-  inserted_node.next = p.next;
-  p.next = inserted_node;
+  inserted_node.next = iterater.next;
+  iterater.next = inserted_node;
 
   return inserted_node;
 };
@@ -64,18 +64,18 @@ LinkedList.prototype.insert = function(data, index) {
  *   The node just removed from the list
  */
 LinkedList.prototype.remove = function(index) {
-  var p = this.head;
+  var iterater = this.head;
   var removed_node;
 
   if(index == 0) {
     removed_node = this.head;
-    this.head = p.next;
+    this.head = iterater.next;
   } else if(index < this.length()) {
     for(var i = 0; i < index-1; i++) {
-      p = p.next;
+      iterater = iterater.next;
     }
-    removed_node = p.next;
-    p.next = p.next.next;
+    removed_node = iterater.next;
+    iterater.next = iterater.next.next;
   }
 
   return removed_node;
@@ -88,6 +88,7 @@ LinkedList.prototype.remove = function(index) {
  */
 LinkedList.prototype.clear = function() {
   this.head = null;
+  this.head.next = null;
 };
 
 /**
@@ -113,14 +114,14 @@ LinkedList.prototype.isEmpty = function() {
  *   Length of the list
  */
 LinkedList.prototype.length = function() {
-  var p = this.head;
+  var iterater = this.head;
   var len = 0;
 
-  if(p == null) {
+  if(iterater == null) {
     return len;
   } else {
-    while(p != null) {
-      p = p.next;
+    while(iterater != null) {
+      iterater = iterater.next;
       len++;
     }
     return len;
@@ -138,15 +139,15 @@ LinkedList.prototype.length = function() {
  *   Node at the position of the given index
  */
 LinkedList.prototype.searchNodeAt = function(index) {
-  var p = this.head;
+  var iterater = this.head;
 
   if(p == null) {
     return undefined;
   } else {
     for(var i = 0; i < index; i++) {
-      p = p.next;
+      iterater = iterater.next;
     }
-    return p;
+    return iterater;
   }
 };
 
