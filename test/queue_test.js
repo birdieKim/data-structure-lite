@@ -6,6 +6,8 @@ qunit.module('queue');
 qunit.test('Queue test', function(assert) {
   var queue = new Queue();
 
+  console.log(queue);
+
   assert.equal(queue.peek(), undefined, 'Empty peek test');
 
   queue.enqueue(1);

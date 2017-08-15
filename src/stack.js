@@ -1,6 +1,9 @@
 var Stack = function() {
-  this.elements = [];  // the array where elements are stored
+
 };
+
+Stack.prototype = Object.create(require('./arrayData').prototype);
+Stack.prototype.constructor = Stack;
 
 /**
  *
@@ -47,29 +50,5 @@ Stack.prototype.top = function() {
   }
 };
 
-/**
- *
- * Make the array empty
- *
- */
-Stack.prototype.clear = function() {
-  this.elements.length = 0;
-};
-
-/**
- *
- * Check if the stack is empty
- *
- * @return
- *   Boolean for whether the stack is empty or not
- */
-Stack.prototype.isEmpty = function() {
-  var len = this.elements.length;
-  if(len > 0){
-    return false;
-  } else {
-    return true;
-  }
-};
 
 module.exports = Stack;

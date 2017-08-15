@@ -1,7 +1,9 @@
 var Queue = function() {
-  this.elements = [];  // the array where elements are stored
   this.front = 0;  // the index of where the element will be deleted
 };
+
+Queue.prototype = Object.create(require('./arrayData').prototype);
+Queue.prototype.constructor = Queue;
 
 /**
  *
@@ -55,29 +57,5 @@ Queue.prototype.rear = function() {
   return len < 0 ? 0 : len;
 };
 
-/**
- *
- * Make the array empty
- *
- */
-Queue.prototype.clear = function() {
-  this.elements.length = 0;
-};
-
-/**
- *
- * Check if the queue is empty
- *
- * @return
- *   Boolean for whether the queue is empty or not
- */
-Queue.prototype.isEmpty = function() {
-  var len = this.elements.length;
-  if(len > 0){
-    return false;
-  } else {
-    return true;
-  }
-};
 
 module.exports = Queue;
