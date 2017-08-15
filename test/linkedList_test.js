@@ -1,10 +1,10 @@
 var qunit = require('qunitjs');
-var SinglyLinkedList = require('../src/singlyLinkedList');
+var LinkedList = require('../src/linkedList');
 
 qunit.module('LinkedList');
 
 qunit.test('Singly Linked List test', function(assert) {
-  var singlyLinkedList = new SinglyLinkedList();
+  var singlyLinkedList = new LinkedList();
 
   assert.equal(singlyLinkedList.head, undefined);
 
@@ -26,6 +26,4 @@ qunit.test('Singly Linked List test', function(assert) {
 
   singlyLinkedList.clear();
   assert.equal(singlyLinkedList.isEmpty(), true);
-
-
 });
