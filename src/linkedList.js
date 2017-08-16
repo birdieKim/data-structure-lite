@@ -1,7 +1,7 @@
-var Node = require('./node.js');
+var Node = require('./node');
 
 var LinkedList = function() {
-  this.head = undefined;
+  this.head = null;
   this.length = 0;
 };
 
@@ -64,7 +64,7 @@ LinkedList.prototype.insert = function(data, index) {
 
 /**
  *
- * Remove a node at the head of the list
+ * Remove a node at the position of the given index
  *
  * @param {Number} index
  *   The index of where the node to be removed (zero-based)
