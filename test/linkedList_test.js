@@ -24,6 +24,8 @@ qunit.test('Singly Linked List test', function(assert) {
   assert.equal(singlyLinkedList.searchNodeAt(2).data, 8);
   assert.equal(singlyLinkedList.length(), 4);
 
+  assert.equal(singlyLinkedList.remove(3).data, 5);
+
   singlyLinkedList.clear();
   assert.equal(singlyLinkedList.isEmpty(), true);
 });

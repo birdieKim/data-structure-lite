@@ -44,7 +44,7 @@ LinkedList.prototype.insert = function(data, index) {
   var iterater = this.head;
 
   for(var i = 0; i < index-1; i++) {
-    iterater = p.next;
+    iterater = iterater.next;
   }
 
   inserted_node.next = iterater.next;
@@ -66,16 +66,21 @@ LinkedList.prototype.insert = function(data, index) {
 LinkedList.prototype.remove = function(index) {
   var iterater = this.head;
   var removed_node;
+  var len = this.length();
 
-  if(index == 0) {
+  if(index === 0) {
     removed_node = this.head;
     this.head = iterater.next;
-  } else if(index < this.length()) {
+  } else if(index < len-1) {
     for(var i = 0; i < index-1; i++) {
       iterater = iterater.next;
     }
     removed_node = iterater.next;
     iterater.next = iterater.next.next;
+  } else if(index === len-1) {
+    removed_node = this.searchNodeAt(len-1);
+    iterater = this.searchNodeAt(len-2);
+    iterater.next = null;
   }
 
   return removed_node;
@@ -88,7 +93,6 @@ LinkedList.prototype.remove = function(index) {
  */
 LinkedList.prototype.clear = function() {
   this.head = null;
-  this.head.next = null;
 };
 
 /**
@@ -117,7 +121,7 @@ LinkedList.prototype.length = function() {
   var iterater = this.head;
   var len = 0;
 
-  if(iterater == null) {
+  if(iterater === null) {
     return len;
   } else {
     while(iterater != null) {
@@ -141,7 +145,7 @@ LinkedList.prototype.length = function() {
 LinkedList.prototype.searchNodeAt = function(index) {
   var iterater = this.head;
 
-  if(p == null) {
+  if(iterater === null || index > this.length()) {
     return undefined;
   } else {
     for(var i = 0; i < index; i++) {
