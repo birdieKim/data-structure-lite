@@ -18,11 +18,11 @@ qunit.test('Singly Linked List test', function(assert) {
 
   singlyLinkedList.insert(8, 3);
   assert.equal(singlyLinkedList.searchNodeAt(3).data, 8);
-  assert.equal(singlyLinkedList.length(), 5);
+  assert.equal(singlyLinkedList.length, 5);
 
   singlyLinkedList.remove(2);
   assert.equal(singlyLinkedList.searchNodeAt(2).data, 8);
-  assert.equal(singlyLinkedList.length(), 4);
+  assert.equal(singlyLinkedList.length, 4);
 
   assert.equal(singlyLinkedList.remove(3).data, 5);
 

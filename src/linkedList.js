@@ -2,6 +2,7 @@ var Node = require('./node.js');
 
 var LinkedList = function() {
   this.head = undefined;
+  this.length = 0;
 };
 
 /**
@@ -21,6 +22,8 @@ LinkedList.prototype.add = function(data) {
 
   node.next = this.head;
   this.head = node;
+
+  this.length++;
 
   return this.head;
 };
@@ -43,14 +46,20 @@ LinkedList.prototype.insert = function(data, index) {
   var inserted_node = new Node(data);
   var iterater = this.head;
 
-  for(var i = 0; i < index-1; i++) {
-    iterater = iterater.next;
+  if(index === this.length) {
+    iterater = this.searchNodeAt(this.length-1);
+    iterater.next = inserted_node;
+    this.length++;
+    return inserted_node;
+  } else if(index < this.length) {
+    for(var i = 0; i < index-1; i++) {
+      iterater = iterater.next;
+    }
+    inserted_node.next = iterater.next;
+    iterater.next = inserted_node;
+    this.length++;
+    return inserted_node;
   }
-
-  inserted_node.next = iterater.next;
-  iterater.next = inserted_node;
-
-  return inserted_node;
 };
 
 /**
@@ -66,21 +75,23 @@ LinkedList.prototype.insert = function(data, index) {
 LinkedList.prototype.remove = function(index) {
   var iterater = this.head;
   var removed_node;
-  var len = this.length();
 
   if(index === 0) {
     removed_node = this.head;
     this.head = iterater.next;
-  } else if(index < len-1) {
+    this.length = 0;
+  } else if(index < this.length-1) {
     for(var i = 0; i < index-1; i++) {
       iterater = iterater.next;
     }
     removed_node = iterater.next;
     iterater.next = iterater.next.next;
-  } else if(index === len-1) {
-    removed_node = this.searchNodeAt(len-1);
-    iterater = this.searchNodeAt(len-2);
+    this.length--;
+  } else if(index === this.length-1) {
+    removed_node = this.searchNodeAt(this.length-1);
+    iterater = this.searchNodeAt(this.length-2);
     iterater.next = null;
+    this.length--;
   }
 
   return removed_node;
@@ -93,6 +104,7 @@ LinkedList.prototype.remove = function(index) {
  */
 LinkedList.prototype.clear = function() {
   this.head = null;
+  this.length = 0;
 };
 
 /**
@@ -112,28 +124,6 @@ LinkedList.prototype.isEmpty = function() {
 
 /**
  *
- * Get length of the list
- *
- * @return
- *   Length of the list
- */
-LinkedList.prototype.length = function() {
-  var iterater = this.head;
-  var len = 0;
-
-  if(iterater === null) {
-    return len;
-  } else {
-    while(iterater != null) {
-      iterater = iterater.next;
-      len++;
-    }
-    return len;
-  }
-};
-
-/**
- *
  * Get the node from the position of the given index
  *
  * @param {Number} index
@@ -145,7 +135,7 @@ LinkedList.prototype.length = function() {
 LinkedList.prototype.searchNodeAt = function(index) {
   var iterater = this.head;
 
-  if(iterater === null || index > this.length()) {
+  if(iterater === null || index > this.length) {
     return undefined;
   } else {
     for(var i = 0; i < index; i++) {
