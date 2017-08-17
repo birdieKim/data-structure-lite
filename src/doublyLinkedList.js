@@ -1,9 +1,7 @@
 var Node = require('./node');
 
 var DoublyLinkedList = function() {
-  this.head = null;
   this.tail = null;
-  this.length = 0;
 };
 
 DoublyLinkedList.prototype = Object.create(require('./linkedList').prototype);
@@ -60,7 +58,7 @@ DoublyLinkedList.prototype.insert = function(data, index) {
 
   if(index === this.length) {
     return this.addLast(data);
-  } else if(index < this.length) {
+  } else if(index >= 0 && index < this.length) {
     for(var i = 0; i < index-1; i++) {
       iterater = iterater.next;
     }

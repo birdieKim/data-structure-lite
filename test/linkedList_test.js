@@ -8,6 +8,8 @@ qunit.test('Singly Linked List test', function(assert) {
   var singlyLinkedList = new LinkedList();
 
   assert.equal(singlyLinkedList.head, null);
+  assert.equal(singlyLinkedList.insert(3, -2), undefined);
+  assert.equal(singlyLinkedList.remove(-2), undefined);
 
   var temp_node = singlyLinkedList.add(5);
   assert.equal(singlyLinkedList.head, temp_node);
@@ -60,5 +62,8 @@ qunit.test('Doubly Linked List test', function(assert) {
   assert.equal(doublyLinkedList.searchNodeAt(2).data, 30);
   assert.equal(doublyLinkedList.searchNodeAt(3).data, 40);
   assert.equal(doublyLinkedList.searchNodeAt(5).data, 60);
+
+  assert.equal(doublyLinkedList.insert(70, -2), undefined);
+
 
 });

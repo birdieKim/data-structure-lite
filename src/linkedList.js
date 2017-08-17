@@ -1,9 +1,11 @@
 var Node = require('./node');
 
 var LinkedList = function() {
-  this.head = null;
-  this.length = 0;
+
 };
+
+LinkedList.prototype.head = null;
+LinkedList.prototype.length = 0;
 
 /**
  *
@@ -51,7 +53,7 @@ LinkedList.prototype.insert = function(data, index) {
     iterater.next = inserted_node;
     this.length++;
     return inserted_node;
-  } else if(index < this.length) {
+  } else if(index >= 0 && index < this.length) {
     for(var i = 0; i < index-1; i++) {
       iterater = iterater.next;
     }
@@ -80,7 +82,7 @@ LinkedList.prototype.remove = function(index) {
     removed_node = this.head;
     this.head = iterater.next;
     this.length = 0;
-  } else if(index < this.length-1) {
+  } else if(index >= 0 && index < this.length-1) {
     for(var i = 0; i < index-1; i++) {
       iterater = iterater.next;
     }
