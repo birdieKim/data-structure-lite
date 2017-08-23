@@ -1,9 +1,8 @@
 var PriorityQueue = function() {
-  this.maxPriority = undefined;  // the max priority
+  this.storage = {};
+  this.maxPriority = 0;  // the max priority
 };
 
-PriorityQueue.prototype = Object.create(require('./arrayData').prototype);
-PriorityQueue.prototype.constructor = PriorityQueue;
 
 /**
  *
@@ -19,17 +18,19 @@ PriorityQueue.prototype.constructor = PriorityQueue;
  *   Max priority value
  */
 PriorityQueue.prototype.enqueue = function(element, priority) {
-  if(this.elements.length === 0) {
-    this.elements = {};
-    this.elements[priority] = [element];
-    this.maxPriority = priority;
-  } else {
-    if(elements[priority] === undefined) {
-      this.elements[priority] = [element];
-      this.updateMaxPriority(priority);
-    } else {  //if there is an array with the same priority
-      this.elements[priority].push(element);
+  if(priority >= 0) {
+    if(this.isEmpty()) {
+      this.storage[priority] = [element];
+      this.maxPriority = priority;
+    } else {
+      if(this.storage[priority] === undefined) {
+        this.storage[priority] = [element];
+        this.updateMaxPriority(priority);
+      } else {  //if there is an array with the same priority
+        this.storage[priority].push(element);
+      }
     }
+    return this.maxPriority;
   }
 };
 
@@ -55,8 +56,10 @@ PriorityQueue.prototype.updateMaxPriority = function(priority) {
  *   The max priority which is the result from searching the max value among the priorities
  */
 PriorityQueue.prototype.getMaxPriority = function() {
-  var keys = Object.keys(this.elements);
-  return keys[keys.length - 1];
+  if(!this.isEmpty()) {
+    var keys = Object.keys(this.storage);
+    return keys[keys.length - 1];
+  }
 };
 
  /**
@@ -70,12 +73,61 @@ PriorityQueue.prototype.getMaxPriority = function() {
   *   The item in the array with the given priority just removed from the queue
   */
  PriorityQueue.prototype.dequeue = function(priority) {
-   if(priority === undefined) {
-     return this.elements[this.maxPriority].pop();
-     if (this.elements[this.maxPriority].length === 0) {
-       this.maxPriority = this.getMaxPriority();
+   if(!this.isEmpty() && this.storage[priority] != undefined && priority >= 0) {
+     var element;
+     if(priority === undefined) {
+       element =  this.storage[this.maxPriority].pop();
+       if(this.storage[this.maxPriority].length === 0) {
+         delete this.storage[this.maxPriority];
+         this.maxPriority = this.getMaxPriority();
+       }
+     } else {
+       element = this.storage[priority].pop();
+       if(this.storage[priority].length === 0) {
+         delete this.storage[priority];
+         this.maxPriority = this.getMaxPriority();
+       }
      }
-   } else {
-     return this.elements[priority].pop();
+     return element;
    }
  };
+
+
+ /**
+  *
+  * Check if the queue is empty
+  *
+  * @return
+  *   Boolean for whether the storage is empty or not
+  */
+ PriorityQueue.prototype.isEmpty = function() {
+   return Object.keys(this.storage).length === 0 ? true : false;
+ };
+
+ /**
+  *
+  * Get size of the storage
+  *
+  * @param {Number|undefined} [priority]
+  *   The priority of the items
+  *
+  * @return
+  *   The size of the storage or the size of the array with the given priority
+  */
+ PriorityQueue.prototype.size = function(priority) {
+   if(priority === undefined) {
+     var len = Object.keys(this.storage).length;
+     var size = 0;
+     for(var i = 0; i < len; i++) {
+       size += this.storage[Object.keys(this.storage)[i]].length;
+     }
+     return size;
+   } else {
+     if(priority >= 0 && this.storage[priority] != undefined ) {
+       return this.storage[priority].length;
+     }
+   }
+ };
+
+
+ module.exports = PriorityQueue;
