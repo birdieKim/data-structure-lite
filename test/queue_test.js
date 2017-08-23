@@ -1,5 +1,6 @@
 var qunit = require('qunitjs');
 var Queue = require('../src/queue');
+var PriorityQueue = require('../src/priorityQueue');
 
 qunit.module('queue');
 
@@ -23,4 +24,34 @@ qunit.test('Queue test', function(assert) {
   assert.equal(queue.dequeue(), undefined);
   assert.equal(queue.peek(), undefined);
   assert.equal(queue.rear(), 0);
+});
+
+qunit.test('Priority Queue test', function(assert) {
+  var pqueue = new PriorityQueue();
+
+  console.log(pqueue);
+
+  assert.equal(pqueue.maxPriority, 0, 'Empty max priority test');
+  assert.equal(pqueue.isEmpty(), true);
+
+  pqueue.enqueue('Bear', 10);
+  assert.equal(pqueue.isEmpty(), false);
+  assert.deepEqual(pqueue.storage[10], ['Bear']);
+  pqueue.enqueue('Bird', 10);
+  assert.equal(pqueue.maxPriority, 10);
+
+
+  pqueue.enqueue('Bugs', 0);
+  assert.equal(pqueue.maxPriority, 10);
+  assert.deepEqual(pqueue.storage[0], ['Bugs']);
+  assert.equal(pqueue.size(), 3);
+  assert.deepEqual(pqueue.dequeue(0), 'Bugs');
+  
+  assert.equal(pqueue.size(10), 2);
+  assert.equal(pqueue.size(0), undefined);
+
+  assert.equal(pqueue.dequeue(0), undefined);
+  assert.equal(pqueue.dequeue(-1), undefined);
+
+  assert.equal(pqueue.enqueue('Bugs', -1), undefined);
 });
