@@ -25,7 +25,7 @@ PriorityQueue.prototype.enqueue = function(element, priority) {
     } else {
       if(this.storage[priority] === undefined) {
         this.storage[priority] = [element];
-        this.updateMaxPriority(priority);
+        updateMaxPriority(priority);
       } else {  //if there is an array with the same priority
         this.storage[priority].push(element);
       }
@@ -44,7 +44,7 @@ PriorityQueue.prototype.enqueue = function(element, priority) {
  * @return
  *   The max priority which is the result from comparing the current max with the given value
  */
-PriorityQueue.prototype.updateMaxPriority = function(priority) {
+function updateMaxPriority(priority) {
   return priority > this.maxPriority ? priority : this.maxPriority;
 };
 
