@@ -12,12 +12,10 @@ DoublyLinkedList.prototype.constructor = DoublyLinkedList;
  *
  * Add a node to the end of the list
  *
- * @param {Any} data
+ * @param {*} data
  *   The data of the node to be added
  *
- * @fires
- *
- * @return
+ * @return {Node}
  *   The new tail node
  */
 DoublyLinkedList.prototype.addLast = function(data) {
@@ -42,15 +40,14 @@ DoublyLinkedList.prototype.addLast = function(data) {
  *
  * Insert a node to the list
  *
- * @param {Any} data
+ * @param {*} data
  *   The data of the node to be inserted
  * @param {Number} index
  *   The index of where the node to be inserted (zero-based)
  *
- * @fires
- *
- * @return
+ * @return {Node}
  *   The inserted node
+ *   Return undefined, if the index is not a natural number (including 0)
  */
 DoublyLinkedList.prototype.insert = function(data, index) {
   var inserted_node = new Node(data);
@@ -78,13 +75,17 @@ DoublyLinkedList.prototype.insert = function(data, index) {
  * @param {Number} index
  *   The index of where the node to be removed (zero-based)
  *
- * @return
+ * @return {Node|undefined}
  *   Node at the position of the given index
+ *   If the list is empty or
+ *   the index is bigger than the length of the list or
+ *   not a natural number (including 0),
+ *   return undefined
  */
 DoublyLinkedList.prototype.searchNodeAt = function(index) {
   var iterater;
 
-  if(this.length === 0 || index > this.length) {
+  if(this.length === 0 || index > this.length || index < 0) {
     return undefined;
   } else {
     if(index < this.length/2) {

@@ -11,12 +11,12 @@ LinkedList.prototype.length = 0;
  *
  * Add a node to the head of the list
  *
- * @param {Any} data
+ * @param {*} data
  *   The data of the node to be added
  *
  * @fires
  *
- * @return
+ * @return {Node}
  *   The new head node
  */
 LinkedList.prototype.add = function(data) {
@@ -34,15 +34,16 @@ LinkedList.prototype.add = function(data) {
  *
  * Insert a node to the list
  *
- * @param {Any} data
+ * @param {*} data
  *   The data of the node to be inserted
  * @param {Number} index
  *   The index of where the node to be inserted (zero-based)
  *
  * @fires
  *
- * @return
+ * @return {Node|undefined}
  *   The inserted node
+ *   Return undefined, if the index is not a natural number (including 0)
  */
 LinkedList.prototype.insert = function(data, index) {
   var inserted_node = new Node(data);
@@ -71,8 +72,9 @@ LinkedList.prototype.insert = function(data, index) {
  * @param {Number} index
  *   The index of where the node to be removed (zero-based)
  *
- * @return
+ * @return {Node|undefined}
  *   The node just removed from the list
+ *   Return undefined, if the index is not a natural number (including 0)
  */
 LinkedList.prototype.remove = function(index) {
   var iterater = this.head;
@@ -131,8 +133,9 @@ LinkedList.prototype.isEmpty = function() {
  * @param {Number} index
  *   The index of where the node to be removed (zero-based)
  *
- * @return
+ * @return {Node|undefined}
  *   Node at the position of the given index
+ *   Return undefined, if the index is not a natural number (including 0)
  */
 LinkedList.prototype.searchNodeAt = function(index) {
   var iterater = this.head;

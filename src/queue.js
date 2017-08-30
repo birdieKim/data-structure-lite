@@ -9,12 +9,12 @@ Queue.prototype.constructor = Queue;
  *
  * Insert an element to the end of the queue
  *
- * @param {Any} element
+ * @param {*} element
  *   The element to be inserted
  *
  * @fires push
  *
- * @return
+ * @return {Number}
  *   New length of the queue after the insertion
  */
 Queue.prototype.enqueue = function(element) {
@@ -27,29 +27,35 @@ Queue.prototype.enqueue = function(element) {
  *
  * @fires shift
  *
- * @return
+ * @return {*}
  *   The element just removed from the queue
+ *   If the queue is empty, return undefined
  */
 Queue.prototype.dequeue = function() {
-  return this.elements.shift();
+  if (!this.isEmpty()) {
+    return this.elements.shift();
+  }
 };
 
 /**
  *
  * Get an element at the front of the queue without dequeueing
  *
- * @return
+ * @return {*}
  *   The element at the front of the queue
+ *   if the queue is empty, return undefined
  */
 Queue.prototype.peek = function() {
-  return this.elements[this.front];
+  if (!this.isEmpty()) {
+    return this.elements[this.front];
+  }
 };
 
 /**
  *
  * Set the index of where an element will be inserted
  *
- * @return
+ * @return {Number}
  *   The index next to the last index of the queue
  */
 Queue.prototype.rear = function() {

@@ -9,12 +9,12 @@ Stack.prototype.constructor = Stack;
  *
  * Insert an element to the top of the stack
  *
- * @param {Any} element
+ * @param {*} element
  *   The element to be inserted
  *
  * @fires push
  *
- * @return
+ * @return {Number}
  *   New length of the stack after the insertion
  */
 Stack.prototype.push = function(element) {
@@ -27,19 +27,23 @@ Stack.prototype.push = function(element) {
  *
  * @fires pop
  *
- * @return
+ * @return {*}
  *   The element just removed from the stack
+ *   If the stack is empty, return undefined
  */
 Stack.prototype.pop = function() {
-  return this.elements.pop();
+  if (!this.isEmpty()) {
+    return this.elements.pop();
+  }
 };
 
 /**
  *
  * Set the index of where an element will be poped
  *
- * @return
+ * @return {Number}
  *   The last index of the stack
+ *   If the stack is empty, return -1
  */
 Stack.prototype.top = function() {
   var len = this.elements.length;

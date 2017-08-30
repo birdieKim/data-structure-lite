@@ -1,5 +1,5 @@
 var PriorityQueue = function() {
-  this.storage = {};
+  this.storage = {};     // JSON format storage (key: value --> priority: element)
   this.maxPriority = 0;  // the max priority
 };
 
@@ -14,8 +14,9 @@ var PriorityQueue = function() {
  *   The priority of the element
  *
  *
- * @return
+ * @return {Number}
  *   Max priority value
+ *   Return undefined if the priority is not a natural number (including 0)
  */
 PriorityQueue.prototype.enqueue = function(element, priority) {
   if(priority >= 0) {
@@ -41,7 +42,7 @@ PriorityQueue.prototype.enqueue = function(element, priority) {
  * @param {Number|undefined} [priority]
  *   The priority to be compared with the current max priority value
  *
- * @return
+ * @return {Number}
  *   The max priority which is the result from comparing the current max with the given value
  */
 function updateMaxPriority(priority) {
@@ -52,8 +53,9 @@ function updateMaxPriority(priority) {
  *
  * Get the max priority value
  *
- * @return
+ * @return {Number|undefined}
  *   The max priority which is the result from searching the max value among the priorities
+ *   If there is no element in the storage, return undefined
  */
 PriorityQueue.prototype.getMaxPriority = function() {
   if(!this.isEmpty()) {
@@ -69,8 +71,10 @@ PriorityQueue.prototype.getMaxPriority = function() {
   * @param {Number|undefined} [priority]
   *   The priority of the items
   *
-  * @return
+  * @return {*}
   *   The item in the array with the given priority just removed from the queue
+  *   If there is no given priority, return the element which is in the highest priority
+  *   Return undefined if the priority is not a natural number (including 0)
   */
  PriorityQueue.prototype.dequeue = function(priority) {
    if(!this.isEmpty() && this.storage[priority] != undefined && priority >= 0) {
@@ -97,7 +101,7 @@ PriorityQueue.prototype.getMaxPriority = function() {
   *
   * Check if the queue is empty
   *
-  * @return
+  * @return {Boolean}
   *   Boolean for whether the storage is empty or not
   */
  PriorityQueue.prototype.isEmpty = function() {
@@ -111,8 +115,10 @@ PriorityQueue.prototype.getMaxPriority = function() {
   * @param {Number|undefined} [priority]
   *   The priority of the items
   *
-  * @return
+  * @return {Number|undefined}
   *   The size of the storage or the size of the array with the given priority
+  *   If there is no given priority, return a whole size of the storage
+  *   Return undefined if the priority is not a natural number (including 0)
   */
  PriorityQueue.prototype.size = function(priority) {
    if(priority === undefined) {

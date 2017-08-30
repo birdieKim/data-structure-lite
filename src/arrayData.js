@@ -1,3 +1,4 @@
+// This module is for supporting Stack & Queue
 var ArrayData = function() {
 };
 
@@ -16,7 +17,7 @@ ArrayData.prototype.clear = function() {
  *
  * Check if the stack is empty
  *
- * @return
+ * @return {Boolean}
  *   Boolean for whether the data object is empty or not
  */
 ArrayData.prototype.isEmpty = function() {
