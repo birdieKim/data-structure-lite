@@ -1,8 +1,8 @@
 // This module is for supporting Stack & Queue
 var ArrayData = function() {
+
 };
 
-ArrayData.prototype.elements = [];     // the array where elements are stored
 
 /**
  *

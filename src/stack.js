@@ -1,5 +1,5 @@
 var Stack = function() {
-
+  this.elements = [];   
 };
 
 Stack.prototype = Object.create(require('./arrayData').prototype);

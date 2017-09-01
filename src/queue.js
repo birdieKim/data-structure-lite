@@ -1,4 +1,5 @@
 var Queue = function() {
+  this.elements = [];     // the array where elements are stored
   this.front = 0;  // the index of where the element will be deleted
 };
 

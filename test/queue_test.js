@@ -24,6 +24,17 @@ qunit.test('Queue test', function(assert) {
   assert.equal(queue.dequeue(), undefined);
   assert.equal(queue.peek(), undefined);
   assert.equal(queue.rear(), 0);
+
+
+
+  queue.enqueue(1);
+  queue.enqueue(2);
+  queue.enqueue(3);
+
+  var q2 = new Queue();
+
+  q2.enqueue(4);
+  console.log(333333, queue.elements, q2.elements);
 });
 
 qunit.test('Priority Queue test', function(assert) {
@@ -46,7 +57,7 @@ qunit.test('Priority Queue test', function(assert) {
   assert.deepEqual(pqueue.storage[0], ['Bugs']);
   assert.equal(pqueue.size(), 3);
   assert.deepEqual(pqueue.dequeue(0), 'Bugs');
-  
+
   assert.equal(pqueue.size(10), 2);
   assert.equal(pqueue.size(0), undefined);
 
