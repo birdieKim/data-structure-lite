@@ -7,8 +7,6 @@ qunit.module('queue');
 qunit.test('Queue test', function(assert) {
   var queue = new Queue();
 
-  console.log(queue);
-
   assert.equal(queue.peek(), undefined, 'Empty peek test');
 
   queue.enqueue(1);
@@ -34,13 +32,11 @@ qunit.test('Queue test', function(assert) {
   var q2 = new Queue();
 
   q2.enqueue(4);
-  console.log(333333, queue.elements, q2.elements);
+
 });
 
 qunit.test('Priority Queue test', function(assert) {
   var pqueue = new PriorityQueue();
-
-  console.log(pqueue);
 
   assert.equal(pqueue.maxPriority, 0, 'Empty max priority test');
   assert.equal(pqueue.isEmpty(), true);
