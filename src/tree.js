@@ -31,7 +31,7 @@ var Tree = function(data, num, equalFunc) {
  *
  * @param {String} traversal
  *   There are 2 options:
- *      "BF" - Breadth-first search
+ *      "BF" - Breadth-first search (default)
  *      "DF" - Depth-first search in pre-order traversal
  * @param {Function} func
  *   A function invoked during traversal

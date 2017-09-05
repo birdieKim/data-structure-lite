@@ -19,13 +19,13 @@ qunit.test('Tree test', function(assert) {
   assert.equal(tree._root.data, 'one');
 
   tree._root.children.push(new TreeNode('two'));
-  tree._root.children[0].parent = tree;
+  tree._root.children[0].parent = tree._root;
 
   tree._root.children.push(new TreeNode('three'));
-  tree._root.children[1].parent = tree;
+  tree._root.children[1].parent = tree._root;
 
   tree._root.children.push(new TreeNode('four'));
-  tree._root.children[2].parent = tree;
+  tree._root.children[2].parent = tree._root;
 
   tree._root.children[0].children.push(new TreeNode('five'));
   tree._root.children[0].children[0].parent = tree._root.children[0];
@@ -38,13 +38,13 @@ qunit.test('Tree test', function(assert) {
 
 
   array = tree.traverse('BF', function(node){
-    console.log(node.data);
+    //console.log(node.data);
   });
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'seven']);
 
 
   array = tree.traverse('DF', function(node){
-    console.log(node.data);
+    //console.log(node.data);
   });
   assert.deepEqual(array, ['one', 'two', 'five', 'six', 'three', 'four', 'seven']);
 
