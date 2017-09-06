@@ -192,7 +192,7 @@ Tree.prototype.delete = function(data, parentData, traversal) {
  *   Boolean for whether the data object is empty or not
  */
 Tree.prototype.isEmpty = function() {
-  if(!this._root){
+  if(this._root === undefined){
     return true;
   } else {
     return false;
@@ -207,7 +207,7 @@ Tree.prototype.isEmpty = function() {
  */
 Tree.prototype.clear = function() {
   this._root.children.length = 0;
-  this._root = null;
+  this._root = undefined;
 };
 
 
