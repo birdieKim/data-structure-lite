@@ -112,7 +112,7 @@ BinarySearchTree.prototype.search = function(data, node) {
  * Insert the node with the given data
  *
  * @param {*} data
- *   The data of the node you're searching for
+ *   The data of the node to be inserted
  *
  * @param {BinaryTreeNode} [node=this._root]
  *   The root node starting traversal from
@@ -142,7 +142,7 @@ BinarySearchTree.prototype.insert = function(data, node) {
  * Delete the node with the given data
  *
  * @param {*} data
- *   The data of the node you're searching for
+ *   The data of the node to be deleted
  *
  * @param {BinaryTreeNode} [node=this._root]
  *   The root node starting traversal from
@@ -233,7 +233,7 @@ BinarySearchTree.prototype.findMaxNode = function(node) {
  * Check if the tree is empty
  *
  * @return {Boolean}
- *   Boolean for whether the data object is empty or not
+ *   Boolean for whether the tree is empty or not
  */
 BinarySearchTree.prototype.isEmpty = function() {
   if(this._root === undefined ){
