@@ -2,10 +2,10 @@ var BinaryTreeNode = require('./binaryTreeNode');
 
 /**
  *
- * Create the binary search tree
+ * Create a heap
  *
  * @param {*} data
- *   Data of the node to be root
+ *   The data of the node to be root
  *
  * @param {Function} compareFunc
  *   A Function for comparing between the given data
@@ -18,23 +18,23 @@ var BinaryTreeNode = require('./binaryTreeNode');
  *      'MinHeap'
  *      'MaxHeap'
  */
- // 처음에 data가 아니라 array를 받아서 heap을 만들어야 할지?
 var Heap = function(data, compareFunc, type) {
-  if(Array.isArray(data)) {
-    this._heapArray = data;
-    this.heapify(type);
-  } else {
-      var node = new BinaryTreeNode(data);
-      this._root = node;
-      this._heapArray = [node.data];
-  }
-
+  this._heapArray = [];
   this._compare = compareFunc;
+  this._type = type === undefined ? 'MinHeap' : type;
+
   if(type != 'MinHeap' && type != 'MaxHeap') {
     console.warn('The type of the heap passed in does not exist. It must be either MinHeap or MaxHeap.');
-  } else {
-    this._type = type === undefined ? 'MinHeap' : type;
   }
+
+  if(Array.isArray(data)) {
+    for(var i = 0; i < data.length; i++) {
+      this.insert(data[i]);
+    }
+  } else {
+      this._heapArray.push(data);
+  }
+
 };
 
 
@@ -44,27 +44,49 @@ var Heap = function(data, compareFunc, type) {
  * Insert the node with the given data
  *
  * @param {*} data
- *   The data of the node to be inserted   
+ *   The data of the node to be inserted
  */
 Heap.prototype.insert = function(data) {
-  var node = BinaryTreeNode(data);
   if(this.isEmpty()) {
     this._heapArray.push(data);
-    this._root = node;
   } else {
     this._heapArray.push(data);
     var i = this._heapArray.length - 1;
+
     if(this._type === 'MinHeap') {
-      while(i > 0 && this._heapArray[_getParentIndex(i)].data < this._heapArray[i].data) {
-        _swap(this._heapArray[_getParentIndex(i)], this._heapArray[_getParentIndex(j)]);
+      while(i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) {
+        _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
       }
     } else if(this._type === 'MaxHeap') {
-      while(i > 0 && this._heapArray[_getParentIndex(i)].data > this._heapArray[i].data) {
-        _swap(this._heapArray[_getParentIndex(i)], this._heapArray[_getParentIndex(j)]);
+      while(i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) {
+        _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
       }
     }
+  }
+};
+
+
+/**
+ *
+ * Delete the root of the heap
+ *
+ * @return {*} data
+ *   The root value to be deleted
+ */
+Heap.prototype.deleteRoot = function() {
+  var root;
+  if(this.isEmpty()) {
+    return root;
+  } else if(this._heapArray.length === 1) {
+    root = this._heapArray[0];
+    this.clear();
+    return root;
+  } else {
+    root = this._heapArray.splice(0, 1);
+    this.heapify(0);
+    return root;
   }
 };
 
@@ -138,21 +160,62 @@ function _getRightChildIndex(index) {
 
 /**
  *
- * Insert the node with the given data
+ * Heapify the subtree with a root at the given index
+ * Assume the subtrees are already heapified
  *
- * @param {String} [type='MinHeap']
- *   There are 2 options for the type of heap:
- *      'MinHeap'
- *      'MaxHeap'
- *
- * @param {Number} [index=1]
- *   The index of the node starting from (one-based)
+ * @param {Number} [index=0]
+ *   The index of the node starting from (zero-based)
  *
  */
 Heap.prototype.heapify = function(index) {
+  var left = _getLeftChildIndex(index);
+  var right = _getRightChildIndex(index);
+  var smallest = index;
+  var biggest = index;
 
+  if(this._type === 'MinHeap') {
+    if(left < this._heapArray.length && this._heapArray[left] < this._heapArray[index]) {
+      smallest = left;
+    }
+    if(right < this._heapArray.length && this._heapArray[right] < this._heapArray[smallest]) {
+      smallest = right;
+    }
+    if(smallest != index) {
+      _swap.call(this, smallest, index);
+      this.heapify(smallest);
+    }
+  } else {
+    if(left < this._heapArray.length && this._heapArray[left] > this._heapArray[index]) {
+      biggest = left;
+    }
+    if(right < this._heapArray.length && this._heapArray[right] > this._heapArray[biggest]) {
+      biggest = right;
+    }
+    if(biggest != index) {
+      _swap.call(this, biggest, index);
+      this.heapify(biggest);
+    }
+  }
 };
 
+
+
+
+
+/**
+ *
+ * Get the root value of the current heap
+ *
+ * @return {*}
+ *   Boolean for whether the tree is empty or not
+ */
+Heap.prototype.getRoot = function() {
+  if(this.isEmpty()){
+    return undefined;
+  } else {
+    return this._heapArray[0];
+  }
+};
 
 
 
@@ -164,7 +227,7 @@ Heap.prototype.heapify = function(index) {
  *   Boolean for whether the tree is empty or not
  */
 Heap.prototype.isEmpty = function() {
-  if(this._root === undefined ){
+  if(this._heapArray.length === 0 ){
     return true;
   } else {
     return false;
@@ -178,8 +241,7 @@ Heap.prototype.isEmpty = function() {
  *
  */
 Heap.prototype.clear = function() {
-  this._root = undefined;
-  _returnArray.length = 0;
+  this._heapArray.length = 0;
 };
 
 
