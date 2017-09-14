@@ -26,7 +26,7 @@ qunit.test('Binary Search Tree test', function(assert) {
 
   tree.insert(3);
 
-  assert.equal(tree.delete(10).data, 15);
+  tree.delete(10);
   assert.deepEqual(tree.traverse('Pre-order'), [15, 5, 3, 7, 20, 25]);
   assert.equal(tree.delete(0, tree._root).data, 15);
 
@@ -42,7 +42,7 @@ qunit.test('Binary Search Tree test', function(assert) {
   assert.equal(tree.isEmpty(), true);
   assert.equal(tree._root, undefined);
   assert.equal(tree.traverse('Pre-order'), undefined);
-  assert.equal(tree.delete(0), undefined);
+  tree.delete(0);
   assert.equal(tree.search(10), undefined);
   assert.equal(tree.findMinNode(), undefined);
   assert.equal(tree.findMaxNode(), undefined);

@@ -1,7 +1,9 @@
 var Node = require('./node');
 
 var DoublyLinkedList = function() {
+  this.head = null;
   this.tail = null;
+  this.length = 0;
 };
 
 DoublyLinkedList.prototype = Object.create(require('./linkedList').prototype);
@@ -77,17 +79,13 @@ DoublyLinkedList.prototype.insert = function(data, index) {
  *
  * @return {Node|undefined}
  *   Node at the position of the given index
- *   If the list is empty or
- *   the index is bigger than the length of the list or
- *   not a natural number (including 0),
+ *   If the list is empty or the index in not a valid number,
  *   return undefined
  */
 DoublyLinkedList.prototype.searchNodeAt = function(index) {
   var iterater;
 
-  if(this.length === 0 || index > this.length || index < 0) {
-    return undefined;
-  } else {
+  if(index >= 0 && index < this.length) {
     if(index < this.length/2) {
       iterater = this.head;
       for(var i = 0; i < index; i++) {
@@ -100,6 +98,9 @@ DoublyLinkedList.prototype.searchNodeAt = function(index) {
       }
     }
     return iterater;
+  } else {
+    console.warn('The list is empty or the index you passed in is not valid.');
+    return undefined;
   }
 };
 

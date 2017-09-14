@@ -1,11 +1,10 @@
 var Node = require('./node');
 
 var LinkedList = function() {
-
+  this.head = null;
+  this.length = 0;
 };
 
-LinkedList.prototype.head = null;
-LinkedList.prototype.length = 0;
 
 /**
  *
@@ -13,8 +12,6 @@ LinkedList.prototype.length = 0;
  *
  * @param {*} data
  *   The data of the node to be added
- *
- * @fires
  *
  * @return {Node}
  *   The new head node
@@ -36,10 +33,9 @@ LinkedList.prototype.add = function(data) {
  *
  * @param {*} data
  *   The data of the node to be inserted
+ *
  * @param {Number} index
  *   The index of where the node to be inserted (zero-based)
- *
- * @fires
  *
  * @return {Node|undefined}
  *   The inserted node
@@ -140,13 +136,14 @@ LinkedList.prototype.isEmpty = function() {
 LinkedList.prototype.searchNodeAt = function(index) {
   var iterater = this.head;
 
-  if(iterater === null || index > this.length) {
-    return undefined;
-  } else {
+  if(index >= 0 && index < this.length) {
     for(var i = 0; i < index; i++) {
       iterater = iterater.next;
     }
     return iterater;
+  } else {
+    console.warn('The list is empty or the index you passed in is not valid.');
+    return undefined;
   }
 };
 

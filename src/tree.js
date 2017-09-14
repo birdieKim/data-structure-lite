@@ -4,7 +4,7 @@ var Stack = require('./stack');
 
 /**
  *
- * Create the tree
+ * Create a tree
  *
  * @param {*} data
  *   Data of the node to be root
@@ -12,7 +12,7 @@ var Stack = require('./stack');
  * @param {Number} num
  *   The maximum number of children that a node can hold
  *
- * @param {Function} equalFunc
+ * @param {Function} [equalFunc]
  *   A Function for checking equality of the data
  *   This function has a node for comparison as parameters
  */
@@ -296,10 +296,6 @@ Tree.prototype.addToRoot = function(data) {
     });
   }
 };
-
-
-
-
 
 
 
