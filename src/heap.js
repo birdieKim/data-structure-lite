@@ -1,5 +1,3 @@
-var BinaryTreeNode = require('./binaryTreeNode');
-
 /**
  *
  * Create a heap
@@ -7,27 +5,27 @@ var BinaryTreeNode = require('./binaryTreeNode');
  * @param {*} data
  *   The data of the node to be root
  *
- * @param {Function} compareFunc
+ * @param {Function} [compareFunc]
  *   A Function for comparing between the given data
  *   This function has two parameters for comparison
  *   Return the result of subtracting the second argument from the first argument
  *   Return 0, if the arguments are equal
  *
- * @param {String} type
+ * @param {String} [type='MinHeap']
  *   There are 2 options for the type of heap:
  *      'MinHeap'
  *      'MaxHeap'
  */
 var Heap = function(data, compareFunc, type) {
   this._heapArray = [];
-  this._compare = compareFunc;
+  this._compare = compareFunc === undefined ? function(a, b){ return a-b; } : compareFunc;
   this._type = type === undefined ? 'MinHeap' : type;
 
   if(type != 'MinHeap' && type != 'MaxHeap') {
     console.warn('The type of the heap passed in does not exist. It must be either MinHeap or MaxHeap.');
   }
 
-  if(Array.isArray(data)) {
+  if(Array.isArray(data)) {   // if the data is array, create a heap with inserting each element in the array
     for(var i = 0; i < data.length; i++) {
       this.insert(data[i]);
     }
@@ -36,6 +34,54 @@ var Heap = function(data, compareFunc, type) {
   }
 
 };
+
+
+
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+Heap.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+}
+
+
+Heap.prototype.visualize = function(canvas) {
+  if(!_eventCallbacks.hasOwnProperty('change')) {
+    this.addEventListener('change', _draw);
+  } else {
+    var hasEqualDom = false;
+    for(var i = 0; i < _canvasObjects.length; i++) {
+      if(_canvasObjects[i].isEqualNode(canvas)) {
+        hasEqualDom = true;
+      }
+    }
+    if(!hasEqualDom) {
+      _canvasObjects.push(canvas);
+      this.addEventListener('change', _draw);
+    }
+  }
+
+
+  function _draw(e) {
+
+    //re-draw
+  }
+}
+
+
+Heap.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+      _eventCallbacks[eventName].splice(index, 1);
+  }
+}
+
 
 
 
@@ -57,11 +103,21 @@ Heap.prototype.insert = function(data) {
       while(i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) {
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
+        if(_eventCallbacks.hasOwnProperty('change')) {
+          _eventCallbacks.change.forEach(function(callback) {
+            callback({data: data, triggeredBy: 'insert'});
+          });
+        }
       }
     } else if(this._type === 'MaxHeap') {
       while(i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) {
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
+        if(_eventCallbacks.hasOwnProperty('change')) {
+          _eventCallbacks.change.forEach(function(callback) {
+            callback({data: data, triggeredBy: 'insert'});
+          });
+        }
       }
     }
   }
@@ -82,10 +138,20 @@ Heap.prototype.deleteRoot = function() {
   } else if(this._heapArray.length === 1) {
     root = this._heapArray[0];
     this.clear();
+    if(_eventCallbacks.hasOwnProperty('change')) {
+      _eventCallbacks.change.forEach(function(callback) {
+        callback({data: root, triggeredBy: 'deleteRoot'});
+      });
+    }
     return root;
   } else {
     root = this._heapArray.splice(0, 1);
     this.heapify(0);
+    if(_eventCallbacks.hasOwnProperty('change')) {
+      _eventCallbacks.change.forEach(function(callback) {
+        callback({data: root, triggeredBy: 'deleteRoot'});
+      });
+    }
     return root;
   }
 };
@@ -95,11 +161,11 @@ Heap.prototype.deleteRoot = function() {
  *
  * Swap the two nodes in the heap array
  *
- * @param {Number} index
- *   The data of the node to be swaped
+ * @param {Number} i
+ *   The index of the node in the heap array to be swaped
  *
- * @param {Number} index
- *   The data of the node to be swaped
+ * @param {Number} j
+ *   The index of the node in the heap array to be swaped
  */
 function _swap(i, j) {
   if(this._heapArray[i] === undefined) {
@@ -120,7 +186,7 @@ function _swap(i, j) {
  * Get index of the parent in the heap array
  *
  * @param {Number} index
- *   The data of the node to be inserted
+ *   The index of the node in the heap array
  *
  * @return {Number}
  *   Return the index of the parent in the heap array
@@ -207,7 +273,8 @@ Heap.prototype.heapify = function(index) {
  * Get the root value of the current heap
  *
  * @return {*}
- *   Boolean for whether the tree is empty or not
+ *   The data of the root
+ *   If the heap is empty, return undefined
  */
 Heap.prototype.getRoot = function() {
   if(this.isEmpty()){
@@ -221,10 +288,10 @@ Heap.prototype.getRoot = function() {
 
 /**
  *
- * Check if the tree is empty
+ * Check if the heap is empty
  *
  * @return {Boolean}
- *   Boolean for whether the tree is empty or not
+ *   Boolean for whether the heap is empty or not
  */
 Heap.prototype.isEmpty = function() {
   if(this._heapArray.length === 0 ){
@@ -237,11 +304,16 @@ Heap.prototype.isEmpty = function() {
 
 /**
  *
- * Make the tree empty
+ * Make the heap empty
  *
  */
 Heap.prototype.clear = function() {
   this._heapArray.length = 0;
+  if(_eventCallbacks.hasOwnProperty('change')) {
+    _eventCallbacks.change.forEach(function(callback) {
+      callback({triggeredBy: 'clear'});
+    });
+  }
 };
 
 

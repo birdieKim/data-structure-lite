@@ -20,20 +20,63 @@ var Tree = function(data, num, equalFunc) {
   var node = new TreeNode(data);
   this._root = node;
   this._maxChildrenNum = num;
-  this._equal = equalFunc;
+  this._equal = equalFunc === undefined ? function(a, b) { if(a === b) { return true; } else { return false; } } : equalFunc;
 };
 
+var _eventCallbacks = {};
+var _canvasObjects = [];
 
+Tree.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+}
+
+
+Tree.prototype.visualize = function(canvas) {
+  if(!_eventCallbacks.hasOwnProperty('change')) {
+    this.addEventListener('change', _draw);
+  } else {
+    var hasEqualDom = false;
+    for(var i = 0; i < _canvasObjects.length; i++) {
+      if(_canvasObjects[i].isEqualNode(canvas)) {
+        hasEqualDom = true;
+      }
+    }
+    if(!hasEqualDom) {
+      _canvasObjects.push(canvas);
+      this.addEventListener('change', _draw);
+    }
+  }
+
+
+  function _draw(e) {
+
+    //re-draw
+  }
+}
+
+
+Tree.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+      _eventCallbacks[eventName].splice(index, 1);
+  }
+}
 
 /**
  *
  * Traverse the tree nodes
  *
- * @param {String} traversal
+ * @param {String} [traversal='BF']
  *   There are 2 options:
  *      "BF" - Breadth-first search (default)
  *      "DF" - Depth-first search in pre-order traversal
- * @param {Function} func
+ * @param {Function} [func]
  *   A function invoked during traversal
  *   This function has a node as a parameter
  *   If the function returns true, traverse will stop
@@ -104,7 +147,7 @@ Tree.prototype.traverse = function(traversal, func) {
  * @param {*} parentData
  *   The data of the node which will be a parent of the inserted node
  *
- * @param {String} traversal
+ * @param {String} [traversal='BF']
  *   There are 2 options:
  *      "BF" - Breadth-first search
  *      "DF" - Depth-first search in pre-order traversal
@@ -114,6 +157,7 @@ Tree.prototype.insert = function(data, parentData, traversal) {
   var child = new TreeNode(data);
   var parent;
 
+  traversal = traversal === undefined ? 'BF' : traversal;
   this.traverse(traversal, _findParent);
 
   if(parent) {
@@ -122,6 +166,11 @@ Tree.prototype.insert = function(data, parentData, traversal) {
     } else {
       parent.children.push(child);
       child.parent = parent;
+      if(_eventCallbacks.hasOwnProperty('change')) {
+        _eventCallbacks.change.forEach(function(callback) {
+          callback({node: child, traversal: traversal, triggeredBy: 'insert'});
+        });
+      }
     }
   } else {
     console.warn('Could not find the parent node with the given data.');
@@ -133,6 +182,7 @@ Tree.prototype.insert = function(data, parentData, traversal) {
       return true;
     }
   }
+
 };
 
 
@@ -147,7 +197,7 @@ Tree.prototype.insert = function(data, parentData, traversal) {
  * @param {*} parentData
  *   The data of the node which is a parent of the deleted node
  *
- * @param {String} traversal
+ * @param {String} [traversal='BF']
  *   There are 2 options:
  *      "BF" - Breadth-first search
  *      "DF" - Depth-first search in pre-order traversal
@@ -157,11 +207,17 @@ Tree.prototype.delete = function(data, parentData, traversal) {
   var childIndex;
   var parent;
 
+  traversal = traversal === undefined ? 'BF' : traversal;
   this.traverse(traversal, _findParent);
 
   if(parent) {
     for(var i = 0 ; i < parent.children.length; i++) {
       if(this._equal(data, parent.children[i].data)) {
+        if(_eventCallbacks.hasOwnProperty('change')) {
+          _eventCallbacks.change.forEach(function(callback) {
+            callback({node: parent.children[i], traversal: traversal, triggeredBy: 'delete'});
+          });
+        }
         parent.children[i].parent = null;
         parent.children.splice(i, 1);
         childIndex = i;
@@ -208,6 +264,12 @@ Tree.prototype.isEmpty = function() {
 Tree.prototype.clear = function() {
   this._root.children.length = 0;
   this._root = undefined;
+
+  if(_eventCallbacks.hasOwnProperty('change')) {
+    _eventCallbacks.change.forEach(function(callback) {
+      callback({triggeredBy: 'clear'});
+    });
+  }
 };
 
 
@@ -228,12 +290,12 @@ Tree.prototype.addToRoot = function(data) {
     this._root.parent = root;
     this._root = root;
   }
+  if(_eventCallbacks.hasOwnProperty('change')) {
+    _eventCallbacks.change.forEach(function(callback) {
+      callback({triggeredBy: 'addToRoot'});
+    });
+  }
 };
-
-
-
-
-
 
 
 

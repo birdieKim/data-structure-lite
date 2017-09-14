@@ -2,12 +2,12 @@ var BinaryTreeNode = require('./binaryTreeNode');
 
 /**
  *
- * Create the binary search tree
+ * Create a binary search tree
  *
  * @param {*} data
  *   Data of the node to be root
  *
- * @param {Function} compareFunc
+ * @param {Function} [compareFunc]
  *   A Function for comparing between the given data
  *   This function has two parameters for comparison
  *   Return the result of subtracting the second argument from the first argument
@@ -16,17 +16,66 @@ var BinaryTreeNode = require('./binaryTreeNode');
 var BinarySearchTree = function(data, compareFunc) {
   var node = new BinaryTreeNode(data);
   this._root = node;
-  this._maxChildrenNum = 2;
-  this._compare = compareFunc;
+  this._compare = compareFunc === undefined ? function(a, b){ return a-b; } : compareFunc;
 };
 
-var _returnArray = [];  // used for returning the array resulted from the traversal
+var _eventCallbacks = {};
+var _canvasObjects = [];
 
+
+BinarySearchTree.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+}
+
+
+BinarySearchTree.prototype.visualize = function(canvas) {
+  if(!_eventCallbacks.hasOwnProperty('change')) {
+    this.addEventListener('change', _draw);
+  } else {
+    var hasEqualDom = false;
+    for(var i = 0; i < _canvasObjects.length; i++) {
+      if(_canvasObjects[i].isEqualNode(canvas)) {
+        hasEqualDom = true;
+      }
+    }
+    if(!hasEqualDom) {
+      _canvasObjects.push(canvas);
+      this.addEventListener('change', _draw);
+    }
+  }
+
+
+  function _draw(e) {
+
+    //re-draw
+  }
+}
+
+
+
+BinarySearchTree.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+      _eventCallbacks[eventName].splice(index, 1);
+  }
+}
+
+
+
+
+
+var _returnArray = [];  // used for returning the array resulted from the traversal
 /**
  *
  * Traverse the tree nodes
  *
- * @param {String} traversal
+ * @param {String} [traversal='Pre-order']
  *   There are 3 options:
  *      "Pre-order" - The traversal order is root-left-right (default)
  *      "In-order" - The traversal order is left-root-right
@@ -43,6 +92,7 @@ BinarySearchTree.prototype.traverse = function(traversal, node, level) {
   if(level === undefined) {
     level = 0;
     _returnArray.length = 0;
+    console.log(_returnArray);
   }
 
   node = node === undefined ? this._root : node;
@@ -70,7 +120,7 @@ BinarySearchTree.prototype.traverse = function(traversal, node, level) {
       console.warn('The traversal passed in does not exist.');
     }
   } else {
-    return;
+    return null;
   }
 };
 
@@ -130,9 +180,16 @@ BinarySearchTree.prototype.insert = function(data, node) {
     } else if(this._compare(data, node.data) > 0) {
       node.right = this.insert(data, node.right);
     }
+
     return node;
   } else {
-    return new BinaryTreeNode(data);
+    var newNode = new BinaryTreeNode(data);
+    if(_eventCallbacks.hasOwnProperty('change')) {
+      _eventCallbacks.change.forEach(function(callback) {
+        callback({node: newNode, triggeredBy: 'insert'});
+      });
+    }
+    return newNode;
   }
 };
 
@@ -148,7 +205,7 @@ BinarySearchTree.prototype.insert = function(data, node) {
  *   The root node starting traversal from
  *
  * @return {BinaryTreeNode|undefined}
- *   A binary tree node with the given data
+ *   The deleted binary tree node
  *   Return undefined, if the node with the given data does not exist in the tree
  */
 BinarySearchTree.prototype.delete = function(data, node) {
@@ -159,8 +216,18 @@ BinarySearchTree.prototype.delete = function(data, node) {
       node.left = this.delete(data, node.left);
     } else if(this._compare(data, node.data) === 0) {
       if(node.left === null) {  // if the node has one right child or no child
+        if(_eventCallbacks.hasOwnProperty('change')) {
+          _eventCallbacks.change.forEach(function(callback) {
+            callback({node: node.right, triggeredBy: 'delete'});
+          });
+        }
         return node.right;
       } else if(node.right === null) {  // if the node has one left child
+        if(_eventCallbacks.hasOwnProperty('change')) {
+          _eventCallbacks.change.forEach(function(callback) {
+            callback({node: node.left, triggeredBy: 'delete'});
+          });
+        }
         return node.left;
       } else {  // if the node has two children
         var minNode = this.findMinNode(node.right);
@@ -170,9 +237,11 @@ BinarySearchTree.prototype.delete = function(data, node) {
     } else if(this._compare(data, node.data) > 0) {
       node.right = this.delete(data, node.right);
     }
+
     return node;
   } else {
-    return node;
+    console.warn('Cannot find the node with the given data.');
+    return null;
   }
 };
 
@@ -252,6 +321,12 @@ BinarySearchTree.prototype.isEmpty = function() {
 BinarySearchTree.prototype.clear = function() {
   this._root = undefined;
   _returnArray.length = 0;
+
+  if(_eventCallbacks.hasOwnProperty('change')) {
+    _eventCallbacks.change.forEach(function(callback) {
+      callback({triggeredBy: 'clear'});
+    });
+  }
 };
 
 module.exports = BinarySearchTree;
