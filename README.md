@@ -3,12 +3,35 @@ Data Structure Light is a JavaScript library for data structure focused on a few
 
 ## Getting Started
 
-## Supported Data structure
+## Supported Data Structure
 
 ### Queue
+Create a queue:
 ```
-Give the examples
+var queue = new Queue();
 ```
+if you have a data for the first element in the queue:
+```
+// if you have 10 as the first element for queue
+var queue = new Queue(10);
+```
+Examples:
+```
+var queue = new Queue();
+
+queue.enqueue(1);   // [1]
+queue.enqueue(2);   // [1, 2]
+queue.enqueue(3);   // [1, 2, 3]
+
+queue.peek();       // 1
+queue.dequeue();    // 1
+queue.dequeue();    // 2
+queue.getRear();    // 1
+queue.clear();
+queue.isEmpty();    // true
+queue.dequeue();    // undefined
+```
+
 ### Priority Queue
 ```
 Give the examples
