@@ -17,6 +17,7 @@ qunit.test('Queue test', function(assert) {
   assert.equal(queue.dequeue(), 1);
   assert.deepEqual(queue.elements, [2, 3]);
   assert.equal(queue.dequeue(), 2);
+  assert.equal(queue.getRear(), 1);
   assert.equal(queue.dequeue(), 3);
   assert.deepEqual(queue.elements, []);
   assert.equal(queue.dequeue(), undefined);

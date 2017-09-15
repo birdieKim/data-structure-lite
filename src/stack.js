@@ -45,13 +45,12 @@ Stack.prototype.pop = function() {
  */
 Stack.prototype.top = function() {
   var len = this.elements.length;
-  if(this.isEmpty()) {
+  if (this.isEmpty()) {
     console.warn('The stack is empty.');
     return -1;
   } else {
-    return len-1;
+    return len - 1;
   }
 };
-
 
 module.exports = Stack;

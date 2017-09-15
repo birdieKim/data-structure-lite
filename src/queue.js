@@ -1,5 +1,15 @@
-var Queue = function() {
+/**
+ *
+ * Create a queue
+ *
+ * @param {*} [element]
+ *   The element to be inserted to the queue
+ */
+var Queue = function(element) {
   this.elements = [];     // the array where elements are stored
+  if (element) {
+    this.elements.push(element);
+  }
   this._front = 0;  // the index of where the element will be deleted
 };
 
@@ -64,6 +74,5 @@ Queue.prototype.getRear = function() {
   var len = this.elements.length;
   return len < 0 ? 0 : len;
 };
-
 
 module.exports = Queue;

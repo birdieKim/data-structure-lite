@@ -9,7 +9,6 @@ var DoublyLinkedList = function() {
 DoublyLinkedList.prototype = Object.create(require('./linkedList').prototype);
 DoublyLinkedList.prototype.constructor = DoublyLinkedList;
 
-
 /**
  *
  * Add a node to the end of the list
@@ -23,7 +22,7 @@ DoublyLinkedList.prototype.constructor = DoublyLinkedList;
 DoublyLinkedList.prototype.addLast = function(data) {
   var node = new Node(data);
 
-  if(this.length === 0) {
+  if (this.length === 0) {
     this.head = node;
     this.tail = node;
   } else {
@@ -52,21 +51,21 @@ DoublyLinkedList.prototype.addLast = function(data) {
  *   Return undefined, if the index is not a natural number (including 0)
  */
 DoublyLinkedList.prototype.insert = function(data, index) {
-  var inserted_node = new Node(data);
+  var insertedNode = new Node(data);
   var iterater = this.head;
 
-  if(index === this.length) {
+  if (index === this.length) {
     return this.addLast(data);
-  } else if(index >= 0 && index < this.length) {
-    for(var i = 0; i < index-1; i++) {
+  } else if (index >= 0 && index < this.length) {
+    for (var i = 0; i < index - 1; i++) {
       iterater = iterater.next;
     }
-    inserted_node.previous = iterater;
-    inserted_node.next = iterater.next;
-    iterater.next.previous = inserted_node;
-    iterater.next = inserted_node;
+    insertedNode.previous = iterater;
+    insertedNode.next = iterater.next;
+    iterater.next.previous = insertedNode;
+    iterater.next = insertedNode;
     this.length++;
-    return inserted_node;
+    return insertedNode;
   }
 };
 
@@ -85,15 +84,15 @@ DoublyLinkedList.prototype.insert = function(data, index) {
 DoublyLinkedList.prototype.searchNodeAt = function(index) {
   var iterater;
 
-  if(index >= 0 && index < this.length) {
-    if(index < this.length/2) {
+  if (index >= 0 && index < this.length) {
+    if (index < this.length / 2) {
       iterater = this.head;
-      for(var i = 0; i < index; i++) {
+      for (var i = 0; i < index; i++) {
         iterater = iterater.next;
       }
     } else {
       iterater = this.tail;
-      for(var i = this.length-1; i > index; i--) {
+      for (var i = this.length - 1; i > index; i--) {
         iterater = iterater.previous;
       }
     }

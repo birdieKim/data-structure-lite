@@ -5,7 +5,6 @@ var LinkedList = function() {
   this.length = 0;
 };
 
-
 /**
  *
  * Add a node to the head of the list
@@ -42,22 +41,22 @@ LinkedList.prototype.add = function(data) {
  *   Return undefined, if the index is not a natural number (including 0)
  */
 LinkedList.prototype.insert = function(data, index) {
-  var inserted_node = new Node(data);
+  var insertedNode = new Node(data);
   var iterater = this.head;
 
-  if(index === this.length) {
-    iterater = this.searchNodeAt(this.length-1);
-    iterater.next = inserted_node;
+  if (index === this.length) {
+    iterater = this.searchNodeAt(this.length - 1);
+    iterater.next = insertedNode;
     this.length++;
-    return inserted_node;
-  } else if(index >= 0 && index < this.length) {
-    for(var i = 0; i < index-1; i++) {
+    return insertedNode;
+  } else if (index >= 0 && index < this.length) {
+    for (var i = 0; i < index - 1; i++) {
       iterater = iterater.next;
     }
-    inserted_node.next = iterater.next;
-    iterater.next = inserted_node;
+    insertedNode.next = iterater.next;
+    iterater.next = insertedNode;
     this.length++;
-    return inserted_node;
+    return insertedNode;
   }
 };
 
@@ -74,27 +73,27 @@ LinkedList.prototype.insert = function(data, index) {
  */
 LinkedList.prototype.remove = function(index) {
   var iterater = this.head;
-  var removed_node;
+  var removedNode;
 
-  if(index === 0) {
-    removed_node = this.head;
+  if (index === 0) {
+    removedNode = this.head;
     this.head = iterater.next;
     this.length = 0;
-  } else if(index >= 0 && index < this.length-1) {
-    for(var i = 0; i < index-1; i++) {
+  } else if (index >= 0 && index < this.length - 1) {
+    for (var i = 0; i < index - 1; i++) {
       iterater = iterater.next;
     }
-    removed_node = iterater.next;
+    removedNode = iterater.next;
     iterater.next = iterater.next.next;
     this.length--;
-  } else if(index === this.length-1) {
-    removed_node = this.searchNodeAt(this.length-1);
-    iterater = this.searchNodeAt(this.length-2);
+  } else if (index === this.length - 1) {
+    removedNode = this.searchNodeAt(this.length - 1);
+    iterater = this.searchNodeAt(this.length - 2);
     iterater.next = null;
     this.length--;
   }
 
-  return removed_node;
+  return removedNode;
 };
 
 /**
@@ -111,11 +110,11 @@ LinkedList.prototype.clear = function() {
  *
  * Check if the list is empty
  *
- * @return
+ * @return {Boolean}
  *   Boolean for whether the list is empty or not
  */
 LinkedList.prototype.isEmpty = function() {
-  if(this.head){
+  if (this.head) {
     return false;
   } else {
     return true;
@@ -136,8 +135,8 @@ LinkedList.prototype.isEmpty = function() {
 LinkedList.prototype.searchNodeAt = function(index) {
   var iterater = this.head;
 
-  if(index >= 0 && index < this.length) {
-    for(var i = 0; i < index; i++) {
+  if (index >= 0 && index < this.length) {
+    for (var i = 0; i < index; i++) {
       iterater = iterater.next;
     }
     return iterater;
@@ -146,6 +145,5 @@ LinkedList.prototype.searchNodeAt = function(index) {
     return undefined;
   }
 };
-
 
 module.exports = LinkedList;

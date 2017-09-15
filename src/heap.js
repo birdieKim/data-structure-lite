@@ -18,24 +18,25 @@
  */
 var Heap = function(data, compareFunc, type) {
   this._heapArray = [];
-  this._compare = compareFunc === undefined ? function(a, b){ return a-b; } : compareFunc;
+  this._compare = compareFunc === undefined ? function(a, b) {
+    return a - b;
+  } : compareFunc;
   this._type = type === undefined ? 'MinHeap' : type;
 
-  if(type != 'MinHeap' && type != 'MaxHeap') {
-    console.warn('The type of the heap passed in does not exist. It must be either MinHeap or MaxHeap.');
+  if (type != 'MinHeap' && type != 'MaxHeap') {
+    console.warn('The type of the heap passed in does not exist.' +
+    'It must be either MinHeap or MaxHeap.');
   }
 
-  if(Array.isArray(data)) {   // if the data is array, create a heap with inserting each element in the array
-    for(var i = 0; i < data.length; i++) {
+  if (Array.isArray(data)) {   // if the data is array, create a heap with inserting each element in the array
+    for (var i = 0; i < data.length; i++) {
       this.insert(data[i]);
     }
   } else {
-      this._heapArray.push(data);
+    this._heapArray.push(data);
   }
 
 };
-
-
 
 var _eventCallbacks = {};
 var _canvasObjects = [];
@@ -47,43 +48,37 @@ Heap.prototype.addEventListener = function(eventName, callback) {
   }
 
   _eventCallbacks[eventName].push(callback);
-}
-
+};
 
 Heap.prototype.visualize = function(canvas) {
-  if(!_eventCallbacks.hasOwnProperty('change')) {
+  if (!_eventCallbacks.hasOwnProperty('change')) {
     this.addEventListener('change', _draw);
   } else {
     var hasEqualDom = false;
-    for(var i = 0; i < _canvasObjects.length; i++) {
-      if(_canvasObjects[i].isEqualNode(canvas)) {
+    for (var i = 0; i < _canvasObjects.length; i++) {
+      if (_canvasObjects[i].isEqualNode(canvas)) {
         hasEqualDom = true;
       }
     }
-    if(!hasEqualDom) {
+    if (!hasEqualDom) {
       _canvasObjects.push(canvas);
       this.addEventListener('change', _draw);
     }
   }
 
-
   function _draw(e) {
 
     //re-draw
   }
-}
-
+};
 
 Heap.prototype.removeEventListener = function(eventName, callback) {
   var index = _eventCallbacks[eventName].indexOf(callback);
 
   if (index !== -1) {
-      _eventCallbacks[eventName].splice(index, 1);
+    _eventCallbacks[eventName].splice(index, 1);
   }
-}
-
-
-
+};
 
 /**
  *
@@ -93,27 +88,27 @@ Heap.prototype.removeEventListener = function(eventName, callback) {
  *   The data of the node to be inserted
  */
 Heap.prototype.insert = function(data) {
-  if(this.isEmpty()) {
+  if (this.isEmpty()) {
     this._heapArray.push(data);
   } else {
     this._heapArray.push(data);
     var i = this._heapArray.length - 1;
 
-    if(this._type === 'MinHeap') {
-      while(i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) {
+    if (this._type === 'MinHeap') {
+      while (i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) {
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
-        if(_eventCallbacks.hasOwnProperty('change')) {
+        if (_eventCallbacks.hasOwnProperty('change')) {
           _eventCallbacks.change.forEach(function(callback) {
             callback({data: data, triggeredBy: 'insert'});
           });
         }
       }
-    } else if(this._type === 'MaxHeap') {
-      while(i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) {
+    } else if (this._type === 'MaxHeap') {
+      while (i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) {
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
-        if(_eventCallbacks.hasOwnProperty('change')) {
+        if (_eventCallbacks.hasOwnProperty('change')) {
           _eventCallbacks.change.forEach(function(callback) {
             callback({data: data, triggeredBy: 'insert'});
           });
@@ -122,7 +117,6 @@ Heap.prototype.insert = function(data) {
     }
   }
 };
-
 
 /**
  *
@@ -133,12 +127,12 @@ Heap.prototype.insert = function(data) {
  */
 Heap.prototype.deleteRoot = function() {
   var root;
-  if(this.isEmpty()) {
+  if (this.isEmpty()) {
     return root;
-  } else if(this._heapArray.length === 1) {
+  } else if (this._heapArray.length === 1) {
     root = this._heapArray[0];
     this.clear();
-    if(_eventCallbacks.hasOwnProperty('change')) {
+    if (_eventCallbacks.hasOwnProperty('change')) {
       _eventCallbacks.change.forEach(function(callback) {
         callback({data: root, triggeredBy: 'deleteRoot'});
       });
@@ -147,7 +141,7 @@ Heap.prototype.deleteRoot = function() {
   } else {
     root = this._heapArray.splice(0, 1);
     this.heapify(0);
-    if(_eventCallbacks.hasOwnProperty('change')) {
+    if (_eventCallbacks.hasOwnProperty('change')) {
       _eventCallbacks.change.forEach(function(callback) {
         callback({data: root, triggeredBy: 'deleteRoot'});
       });
@@ -155,7 +149,6 @@ Heap.prototype.deleteRoot = function() {
     return root;
   }
 };
-
 
 /**
  *
@@ -168,10 +161,12 @@ Heap.prototype.deleteRoot = function() {
  *   The index of the node in the heap array to be swaped
  */
 function _swap(i, j) {
-  if(this._heapArray[i] === undefined) {
-    console.warn('The heap array does not have a value with the given index as a first parameter.');
-  } else if(this._heapArray[j] === undefined) {
-    console.warn('The heap array does not have a value with the given index as a second parameter.');
+  if (this._heapArray[i] === undefined) {
+    console.warn('The heap array does not have a value with the given index' +
+    'as a first parameter.');
+  } else if (this._heapArray[j] === undefined) {
+    console.warn('The heap array does not have a value with the given index' +
+    'as a second parameter.');
   } else {
     var temp = this._heapArray[i];
     this._heapArray[i] = this._heapArray[j];
@@ -179,7 +174,6 @@ function _swap(i, j) {
   }
 
 }
-
 
 /**
  *
@@ -223,7 +217,6 @@ function _getRightChildIndex(index) {
   return index * 2 + 2;
 }
 
-
 /**
  *
  * Heapify the subtree with a root at the given index
@@ -239,34 +232,34 @@ Heap.prototype.heapify = function(index) {
   var smallest = index;
   var biggest = index;
 
-  if(this._type === 'MinHeap') {
-    if(left < this._heapArray.length && this._heapArray[left] < this._heapArray[index]) {
+  if (this._type === 'MinHeap') {
+    if (left < this._heapArray.length &&
+        this._heapArray[left] < this._heapArray[index]) {
       smallest = left;
     }
-    if(right < this._heapArray.length && this._heapArray[right] < this._heapArray[smallest]) {
+    if (right < this._heapArray.length &&
+        this._heapArray[right] < this._heapArray[smallest]) {
       smallest = right;
     }
-    if(smallest != index) {
+    if (smallest != index) {
       _swap.call(this, smallest, index);
       this.heapify(smallest);
     }
   } else {
-    if(left < this._heapArray.length && this._heapArray[left] > this._heapArray[index]) {
+    if (left < this._heapArray.length &&
+        this._heapArray[left] > this._heapArray[index]) {
       biggest = left;
     }
-    if(right < this._heapArray.length && this._heapArray[right] > this._heapArray[biggest]) {
+    if (right < this._heapArray.length &&
+        this._heapArray[right] > this._heapArray[biggest]) {
       biggest = right;
     }
-    if(biggest != index) {
+    if (biggest != index) {
       _swap.call(this, biggest, index);
       this.heapify(biggest);
     }
   }
 };
-
-
-
-
 
 /**
  *
@@ -277,14 +270,12 @@ Heap.prototype.heapify = function(index) {
  *   If the heap is empty, return undefined
  */
 Heap.prototype.getRoot = function() {
-  if(this.isEmpty()){
+  if (this.isEmpty()) {
     return undefined;
   } else {
     return this._heapArray[0];
   }
 };
-
-
 
 /**
  *
@@ -294,13 +285,12 @@ Heap.prototype.getRoot = function() {
  *   Boolean for whether the heap is empty or not
  */
 Heap.prototype.isEmpty = function() {
-  if(this._heapArray.length === 0 ){
+  if (this._heapArray.length === 0) {
     return true;
   } else {
     return false;
   }
 };
-
 
 /**
  *
@@ -309,12 +299,11 @@ Heap.prototype.isEmpty = function() {
  */
 Heap.prototype.clear = function() {
   this._heapArray.length = 0;
-  if(_eventCallbacks.hasOwnProperty('change')) {
+  if (_eventCallbacks.hasOwnProperty('change')) {
     _eventCallbacks.change.forEach(function(callback) {
       callback({triggeredBy: 'clear'});
     });
   }
 };
-
 
 module.exports = Heap;

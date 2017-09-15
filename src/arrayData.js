@@ -3,7 +3,6 @@ var ArrayData = function() {
 
 };
 
-
 /**
  *
  * Make the data object empty
@@ -22,12 +21,11 @@ ArrayData.prototype.clear = function() {
  */
 ArrayData.prototype.isEmpty = function() {
   var len = this.elements.length;
-  if(len > 0){
+  if (len > 0) {
     return false;
   } else {
     return true;
   }
 };
-
 
 module.exports = ArrayData;
