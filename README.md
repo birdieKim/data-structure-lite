@@ -1,13 +1,13 @@
-# Data Structure Light
-Data Structure Light is a JavaScript library for data structure focused on a few main functions.
+# Data Structure Lite
+Data Structure Lite is a JavaScript library for data structure focused on a few main functions.
 
 ## Getting Started
 
 
 ## Supported Data Structure
 
-### Queue
 ------------
+### Queue
 Create a queue:
 ```javascript
 var queue = new Queue();
@@ -34,9 +34,8 @@ queue.isEmpty();      // return: true
 queue.dequeue();      // return: undefined
 ```
 
-
-### Priority Queue
 ------------
+### Priority Queue
 Create a priority queue:
 ```javascript
 var pqueue = new PriorityQueue();
@@ -62,9 +61,8 @@ pqueue.dequeue(8);            // return: undefined
 pqueue.enqueue('Bugs', -1);   // return: undefined (the priority passed in is not a natural number)
 ```
 
-
-### Stack
 ------------
+### Stack
 Create a stack:
 ```javascript
 var stack = new Stack();
@@ -91,7 +89,6 @@ stack.pop();        // return: 10, stack: []
 stack.pop();        // return: undefined
 stack.isEmpty();    // return: true
 
-
 stack.push(15);     // return: 1, stack: [15]
 stack.push(25);     // return: 2, stack: [15, 25]
 stack.push(35);     // return: 3, stack: [15, 25, 35]
@@ -105,8 +102,8 @@ stack.top();        // return: -1
 stack.isEmpty();    // return: true
 ```
 
-### Linked List
 ------------
+### Linked List
 Create a linked list:
 ```javascript
 var linkedList = new LinkedList();
@@ -147,8 +144,8 @@ linkedList.clear();
 linkedList.isEmpty();               // return: true
 ```
 
-### Doubly Linked List
 ------------
+### Doubly Linked List
 Create a doubly linked list:
 ```javascript
 var doublyLinkedList = new DoublyLinkedList();
@@ -162,21 +159,21 @@ Examples:
 ```javascript
 var doublyLinkedList = new doublyLinkedList();
 
-doublyLinkedList.head;              // return: null
-doublyLinkedList.length;            // return: 0
+doublyLinkedList.head;                // return: null
+doublyLinkedList.length;              // return: 0
 
-doublyLinkedList.addLast(10);       // return: {data: 10, next: null, previous: null}
-doublyLinkedList.head;              // return: {data: 10, next: null, previous: null}
-doublyLinkedList.tail;              // return: {data: 10, next: null, previous: null}
+doublyLinkedList.addLast(10);         // return: {data: 10, next: null, previous: null}
+doublyLinkedList.head;                // return: {data: 10, next: null, previous: null}
+doublyLinkedList.tail;                // return: {data: 10, next: null, previous: null}
 
-doublyLinkedList.addLast(20);       // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
-doublyLinkedList.head;              // return: {data: 10, next: {data: 20, next: null,
-                                    //                           previous: {data: 10, next: null, previous: null}},
-                                    //          previous: null}
-doublyLinkedList.tail;              // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+doublyLinkedList.addLast(20);         // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+doublyLinkedList.head;                // return: {data: 10, next: {data: 20, next: null,
+                                      //                           previous: {data: 10, next: null, previous: null}},
+                                      //          previous: null}
+doublyLinkedList.tail;                // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
 
-doublyLinkedList.insert(40, 2);     // return: {data: 40, next: null,
-                                    //          previous: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+doublyLinkedList.insert(40, 2);       // return: {data: 40, next: null,
+                                      //          previous: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
 doublyLinkedList.tail.data;           // return: 40
 doublyLinkedList.tail.previous.data;  // return: 20
 
@@ -204,14 +201,89 @@ doublyLinkedList.clear();
 doublyLinkedList.isEmpty();           // return: true
 ```
 
+------------
 ### Tree
+Create a tree:
+```javascript
+var tree = new Tree();
 ```
-Give the examples
+If you have a data for the root node, the maximum number of children and a function for checking the equality between nodes:
+```javascript
+// A Function for checking the equality between nodes
+// SHOULD have 2 parameters and return boolean value
+var equalFunc = function(a, b)  {
+  if (a === b) {
+    return true;
+  } else {
+    return false;
+  }
+};
+// if you have 10 as data of the first node, 2 as the max number of children that the parent node can have
+// and a function for checking the equality between nodes
+var tree = new Tree(10, 2, equalFunc);
 ```
+Examples:
+```javascript
+var equalFunc = function(a, b)  {
+  if (a === b) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+var tree = new Tree('one', 2, equalFunc);
+
+tree._root;                           // return: {data: 'one', parent: null, children: []}
+tree.insert('two', 'one', 'BF');      // tree: {data: 'one', parent: null,
+                                      //        children: [{data: 'two', parent: {data: 'one', ...}, children: []}]}
+
+tree._root.children[0].parent.data;   // return: 'one'
+
+tree.insert('three', 'one', 'BF');    // tree: {data: 'one', parent: null,
+                                      //        children: [{data: 'two', ...}, {data: 'three, ...'}]}
+
+
+tree.insert('four', 'one', 'BF');     //=> Error! This tree has the max number of children(2)
+                                      //   so the parent node cannot have more than 2 children nodes
+
+tree.insert('four', 'two', 'BF');     // tree: {data: 'one', parent: null,
+                                      //        children: [{data: 'two', parent: {data: 'one', ...}, children: [{data: 'four', ...}]},
+                                      //                   {data: 'three', ...}]}
+
+tree.traverse('BF');                  // return: ['one', 'two', 'three', 'four']
+tree.traverse('DF');                  // return: ['one', 'two', 'four', 'three']
+
+tree.insert('five', 'three', 'BF');   // tree: {data: 'one', parent: null,
+                                      //        children: [{data: 'two', children: [{data: 'four', ...}], ...},
+                                      //                   {data: 'three', children: [{data: 'five', ...}], ...}]}
+tree.traverse('BF', undefined, function(node) {
+  node.data += '!';
+});                                   // return: ['one!', 'two!', 'three!', 'four!']
+
+tree.delete('three!', 'one!', 'BF');  // tree: {data: 'one!', parent: null,
+                                      //        children: [{data: 'two!', children: [{data: 'four!', ...}], ...}]}
+tree.traverse('BF');                  // return: ['one!', 'two!', 'four!']
+
+tree.addToRoot('zero');               // tree: {data: 'zero', parent: null,
+                                      //        children: [{data: 'one!', parent: {data: 'zero', ...},
+                                      //                    children: [{data: 'two!', ...}]}]}
+tree._root.data;                      // return: 'zero'
+tree.traverse('DF');                  // return: ['zero', 'one!', 'two!', four!']
+
+tree.clear();
+tree.isEmpty();                       // return: true   
+```
+
+
+------------
 ### Binary Search Tree
 ```
 Give the examples
 ```
+
+
+------------
 ### Heap
 ```
 Give the examples
