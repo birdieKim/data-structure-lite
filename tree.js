@@ -41,28 +41,6 @@ Tree.prototype.addEventListener = function(eventName, callback) {
   _eventCallbacks[eventName].push(callback);
 };
 
-Tree.prototype.visualize = function(canvas) {
-  if (!_eventCallbacks.hasOwnProperty('change')) {
-    this.addEventListener('change', _draw);
-  } else {
-    var hasEqualDom = false;
-    for (var i = 0; i < _canvasObjects.length; i++) {
-      if (_canvasObjects[i].isEqualNode(canvas)) {
-        hasEqualDom = true;
-      }
-    }
-    if (!hasEqualDom) {
-      _canvasObjects.push(canvas);
-      this.addEventListener('change', _draw);
-    }
-  }
-
-  function _draw(e) {
-
-    //re-draw
-  }
-};
-
 Tree.prototype.removeEventListener = function(eventName, callback) {
   var index = _eventCallbacks[eventName].indexOf(callback);
 
@@ -163,7 +141,7 @@ Tree.prototype.insert = function(data, parentData, traversal) {
   this.traverse(traversal, _findParent);
 
   if (parent) {
-    if (this._maxChildrenNum && parent.children.length >= this._maxChildrenNum) {
+    if (this._maxChildrenNum && parent.children.length >= this._maxChildrenNum) { // jscs:disable
       throw new Error('The parent node already has enough children.');
     } else {
       parent.children.push(child);
