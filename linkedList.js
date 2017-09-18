@@ -1,8 +1,41 @@
 var Node = require('./node');
 
-var LinkedList = function() {
+/**
+ *
+ * Create a linked list
+ *
+ * @param {*} [data]
+ *   The data to be inserted to the list
+ */
+var LinkedList = function(data) {
   this.head = null;
   this.length = 0;
+
+  if (data) {
+    var node = new Node(data);
+    this.head = node;
+    this.length++;
+  }
+};
+
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+LinkedList.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+};
+
+LinkedList.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+    _eventCallbacks[eventName].splice(index, 1);
+  }
 };
 
 /**
@@ -91,6 +124,9 @@ LinkedList.prototype.remove = function(index) {
     iterater = this.searchNodeAt(this.length - 2);
     iterater.next = null;
     this.length--;
+  } else {
+    console.warn('The index passed in is out of bounds.');
+    return undefined;
   }
 
   return removedNode;

@@ -1,15 +1,12 @@
 var qunit = require('qunitjs');
-var BinarySearchTree = require('../src/binarySearchTree');
-var BinaryTreeNode = require('../src/binaryTreeNode');
+var BinarySearchTree = require('../binarySearchTree');
+var BinaryTreeNode = require('../binaryTreeNode');
 
 qunit.module('binary search tree');
 
 qunit.test('Binary Search Tree test', function(assert) {
 
-  var compareFunc = function(a, b) {
-      return a-b;
-  }
-  var tree = new BinarySearchTree(10, compareFunc);
+  var tree = new BinarySearchTree(10);
 
   assert.equal(tree._root.data, 10);
 
@@ -28,7 +25,7 @@ qunit.test('Binary Search Tree test', function(assert) {
 
   tree.delete(10);
   tree.delete(50);
-  console.log(tree._root);
+
   assert.deepEqual(tree.traverse('Pre-order'), [15, 5, 3, 7, 20, 25]);
   assert.equal(tree.delete(0, tree._root).data, 15);
 
@@ -44,7 +41,7 @@ qunit.test('Binary Search Tree test', function(assert) {
   assert.equal(tree.isEmpty(), true);
   assert.equal(tree._root, undefined);
   assert.equal(tree.traverse('Pre-order'), undefined);
-  tree.delete(0)
+  tree.delete(0);
   assert.equal(tree.search(10), undefined);
   assert.equal(tree.findMinNode(), undefined);
   assert.equal(tree.findMaxNode(), undefined);

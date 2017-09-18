@@ -33,28 +33,6 @@ BinarySearchTree.prototype.addEventListener = function(eventName, callback) {
   _eventCallbacks[eventName].push(callback);
 };
 
-BinarySearchTree.prototype.visualize = function(canvas) {
-  if (!_eventCallbacks.hasOwnProperty('change')) {
-    this.addEventListener('change', _draw);
-  } else {
-    var hasEqualDom = false;
-    for (var i = 0; i < _canvasObjects.length; i++) {
-      if (_canvasObjects[i].isEqualNode(canvas)) {
-        hasEqualDom = true;
-      }
-    }
-    if (!hasEqualDom) {
-      _canvasObjects.push(canvas);
-      this.addEventListener('change', _draw);
-    }
-  }
-
-  function _draw(e) {
-
-    //re-draw
-  }
-};
-
 BinarySearchTree.prototype.removeEventListener = function(eventName, callback) {
   var index = _eventCallbacks[eventName].indexOf(callback);
 
@@ -112,7 +90,7 @@ BinarySearchTree.prototype.traverse = function(traversal, node, level) {
 
       return _returnArray;
     } else {
-      console.warn('The traversal passed in does not exist.');
+      throw new Error('The traversal passed in does not exist.');
       return undefined;
     }
   } else {
@@ -234,7 +212,7 @@ BinarySearchTree.prototype.delete = function(data, node, isFound) {
 
   } else {
     if (isFound) {
-      return null;
+      return null; // jscs:disable
     } else {
       console.warn('Cannot find the node with the given data.');
       return undefined;
@@ -315,12 +293,6 @@ BinarySearchTree.prototype.isEmpty = function() {
 BinarySearchTree.prototype.clear = function() {
   this._root = undefined;
   _returnArray.length = 0;
-
-  if (_eventCallbacks.hasOwnProperty('change')) {
-    _eventCallbacks.change.forEach(function(callback) {
-      callback({triggeredBy: 'clear'});
-    });
-  }
 };
 
 module.exports = BinarySearchTree;

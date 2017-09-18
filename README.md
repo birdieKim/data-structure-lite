@@ -3,9 +3,11 @@ Data Structure Light is a JavaScript library for data structure focused on a few
 
 ## Getting Started
 
+
 ## Supported Data Structure
 
 ### Queue
+------------
 Create a queue:
 ```javascript
 var queue = new Queue();
@@ -32,7 +34,9 @@ queue.isEmpty();    // return: true
 queue.dequeue();    // return: undefined
 ```
 
+
 ### Priority Queue
+------------
 Create a priority queue:
 ```javascript
 var pqueue = new PriorityQueue();
@@ -58,7 +62,9 @@ pqueue.dequeue(8);            // return: undefined
 pqueue.enqueue('Bugs', -1);   // return: undefined (the priority passed in is not a natural number)
 ```
 
+
 ### Stack
+------------
 Create a stack:
 ```javascript
 var stack = new Stack();
@@ -100,6 +106,7 @@ stack.isEmpty();    // return: true
 ```
 
 ### Linked List
+------------
 Create a linked list:
 ```javascript
 var linkedList = new LinkedList();

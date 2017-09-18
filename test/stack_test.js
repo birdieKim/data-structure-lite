@@ -1,5 +1,5 @@
 var qunit = require('qunitjs');
-var Stack = require('../src/stack');
+var Stack = require('../stack');
 
 qunit.module('stack');
 
@@ -21,7 +21,6 @@ qunit.test('Stack test', function(assert) {
   assert.equal(stack.pop(), undefined);
   assert.equal(stack.top(), -1);
   assert.equal(stack.isEmpty(), true);
-
 
   stack.push(1);
   stack.push(2);

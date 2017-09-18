@@ -1,6 +1,6 @@
 var qunit = require('qunitjs');
-var LinkedList = require('../src/linkedList');
-var DoublyLinkedList = require('../src/doublylinkedList');
+var LinkedList = require('../linkedList');
+var DoublyLinkedList = require('../doublylinkedList');
 
 qunit.module('LinkedList');
 
@@ -11,8 +11,8 @@ qunit.test('Singly Linked List test', function(assert) {
   assert.equal(singlyLinkedList.insert(3, -2), undefined);
   assert.equal(singlyLinkedList.remove(-2), undefined);
 
-  var temp_node = singlyLinkedList.add(5);
-  assert.equal(singlyLinkedList.head, temp_node);
+  var tempNode = singlyLinkedList.add(5);
+  assert.equal(singlyLinkedList.head, tempNode);
 
   singlyLinkedList.add(7);
   singlyLinkedList.add(10);
@@ -39,9 +39,9 @@ qunit.test('Doubly Linked List test', function(assert) {
   assert.equal(doublyLinkedList.head, null);
   assert.equal(doublyLinkedList.length, 0);
 
-  var temp_node = doublyLinkedList.addLast(10);
-  assert.equal(doublyLinkedList.head, temp_node);
-  assert.equal(doublyLinkedList.tail, temp_node);
+  var tempNode = doublyLinkedList.addLast(10);
+  assert.equal(doublyLinkedList.head, tempNode);
+  assert.equal(doublyLinkedList.tail, tempNode);
 
   doublyLinkedList.addLast(20);
   assert.equal(doublyLinkedList.head.data, 10);
@@ -64,6 +64,5 @@ qunit.test('Doubly Linked List test', function(assert) {
   assert.equal(doublyLinkedList.searchNodeAt(5).data, 60);
 
   assert.equal(doublyLinkedList.insert(70, -2), undefined);
-
 
 });

@@ -1,13 +1,48 @@
 var Node = require('./node');
 
-var DoublyLinkedList = function() {
+/**
+ *
+ * Create a doubly linked list
+ *
+ * @param {*} [data]
+ *   The data to be inserted to the list
+ */
+var DoublyLinkedList = function(data) {
   this.head = null;
   this.tail = null;
   this.length = 0;
+
+  if (data) {
+    var node = new Node(data);
+    this.head = node;
+    this.tail = node;
+    this.length++;
+  }
+
 };
 
 DoublyLinkedList.prototype = Object.create(require('./linkedList').prototype);
 DoublyLinkedList.prototype.constructor = DoublyLinkedList;
+
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+DoublyLinkedList.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+};
+
+DoublyLinkedList.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+    _eventCallbacks[eventName].splice(index, 1);
+  }
+};
 
 /**
  *

@@ -16,6 +16,26 @@ var Queue = function(element) {
 Queue.prototype = Object.create(require('./arrayData').prototype);
 Queue.prototype.constructor = Queue;
 
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+Queue.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+};
+
+Queue.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+    _eventCallbacks[eventName].splice(index, 1);
+  }
+};
+
 /**
  *
  * Insert an element to the end of the queue
@@ -43,6 +63,7 @@ Queue.prototype.dequeue = function() {
     return this.elements.shift();
   } else {
     console.warn('The queue is empty.');
+    return undefined;
   }
 };
 
@@ -59,6 +80,7 @@ Queue.prototype.peek = function() {
     return this.elements[this._front];
   } else {
     console.warn('The queue is empty.');
+    return undefined;
   }
 };
 

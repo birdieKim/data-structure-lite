@@ -23,8 +23,8 @@ var Heap = function(data, compareFunc, type) {
   } : compareFunc;
   this._type = type === undefined ? 'MinHeap' : type;
 
-  if (type != 'MinHeap' && type != 'MaxHeap') {
-    console.warn('The type of the heap passed in does not exist.' +
+  if (this._type != 'MinHeap' && this._type != 'MaxHeap') {
+    throw new Error('The type of the heap passed in does not exist.' +
     'It must be either MinHeap or MaxHeap.');
   }
 
@@ -50,28 +50,6 @@ Heap.prototype.addEventListener = function(eventName, callback) {
   _eventCallbacks[eventName].push(callback);
 };
 
-Heap.prototype.visualize = function(canvas) {
-  if (!_eventCallbacks.hasOwnProperty('change')) {
-    this.addEventListener('change', _draw);
-  } else {
-    var hasEqualDom = false;
-    for (var i = 0; i < _canvasObjects.length; i++) {
-      if (_canvasObjects[i].isEqualNode(canvas)) {
-        hasEqualDom = true;
-      }
-    }
-    if (!hasEqualDom) {
-      _canvasObjects.push(canvas);
-      this.addEventListener('change', _draw);
-    }
-  }
-
-  function _draw(e) {
-
-    //re-draw
-  }
-};
-
 Heap.prototype.removeEventListener = function(eventName, callback) {
   var index = _eventCallbacks[eventName].indexOf(callback);
 
@@ -95,24 +73,14 @@ Heap.prototype.insert = function(data) {
     var i = this._heapArray.length - 1;
 
     if (this._type === 'MinHeap') {
-      while (i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) {
+      while (i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) { // jscs:disable
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
-        if (_eventCallbacks.hasOwnProperty('change')) {
-          _eventCallbacks.change.forEach(function(callback) {
-            callback({data: data, triggeredBy: 'insert'});
-          });
-        }
       }
     } else if (this._type === 'MaxHeap') {
-      while (i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) {
+      while (i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) { // jscs:disable
         _swap.call(this, _getParentIndex(i), i);
         i = _getParentIndex(i);
-        if (_eventCallbacks.hasOwnProperty('change')) {
-          _eventCallbacks.change.forEach(function(callback) {
-            callback({data: data, triggeredBy: 'insert'});
-          });
-        }
       }
     }
   }
@@ -132,20 +100,12 @@ Heap.prototype.deleteRoot = function() {
   } else if (this._heapArray.length === 1) {
     root = this._heapArray[0];
     this.clear();
-    if (_eventCallbacks.hasOwnProperty('change')) {
-      _eventCallbacks.change.forEach(function(callback) {
-        callback({data: root, triggeredBy: 'deleteRoot'});
-      });
-    }
+
     return root;
   } else {
     root = this._heapArray.splice(0, 1);
     this.heapify(0);
-    if (_eventCallbacks.hasOwnProperty('change')) {
-      _eventCallbacks.change.forEach(function(callback) {
-        callback({data: root, triggeredBy: 'deleteRoot'});
-      });
-    }
+
     return root;
   }
 };
@@ -162,11 +122,9 @@ Heap.prototype.deleteRoot = function() {
  */
 function _swap(i, j) {
   if (this._heapArray[i] === undefined) {
-    console.warn('The heap array does not have a value with the given index' +
-    'as a first parameter.');
+    throw new Error('The heap array does not have a value with the given index as a first parameter.');
   } else if (this._heapArray[j] === undefined) {
-    console.warn('The heap array does not have a value with the given index' +
-    'as a second parameter.');
+    throw new Error('The heap array does not have a value with the given index as a second parameter.');
   } else {
     var temp = this._heapArray[i];
     this._heapArray[i] = this._heapArray[j];
@@ -299,11 +257,6 @@ Heap.prototype.isEmpty = function() {
  */
 Heap.prototype.clear = function() {
   this._heapArray.length = 0;
-  if (_eventCallbacks.hasOwnProperty('change')) {
-    _eventCallbacks.change.forEach(function(callback) {
-      callback({triggeredBy: 'clear'});
-    });
-  }
 };
 
 module.exports = Heap;

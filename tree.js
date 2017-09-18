@@ -134,7 +134,7 @@ Tree.prototype.traverse = function(traversal, func) {
 
     return order;
   } else {
-    console.warn('The traversal passed in does not exist.');
+    throw new Error('The traversal passed in does not exist.');
   }
 };
 
@@ -163,9 +163,8 @@ Tree.prototype.insert = function(data, parentData, traversal) {
   this.traverse(traversal, _findParent);
 
   if (parent) {
-    if (this._maxChildrenNum &&
-        parent.children.length >= this._maxChildrenNum) {
-      console.warn('The parent node already has enough children.');
+    if (this._maxChildrenNum && parent.children.length >= this._maxChildrenNum) {
+      throw new Error('The parent node already has enough children.');
     } else {
       parent.children.push(child);
       child.parent = parent;
@@ -176,7 +175,7 @@ Tree.prototype.insert = function(data, parentData, traversal) {
       }
     }
   } else {
-    console.warn('Could not find the parent node with the given data.');
+    throw new Error('Cannot find the parent node with the given data.');
   }
 
   function _findParent(currentNode) {
@@ -215,13 +214,6 @@ Tree.prototype.delete = function(data, parentData, traversal) {
   if (parent) {
     for (var i = 0 ; i < parent.children.length; i++) {
       if (this._equal(data, parent.children[i].data)) {
-        if (_eventCallbacks.hasOwnProperty('change')) {
-          _eventCallbacks.change.forEach(function(callback) {
-            callback({node: parent.children[i],
-                      traversal: traversal,
-                      triggeredBy: 'delete'});
-          });
-        }
         parent.children[i].parent = null;
         parent.children.splice(i, 1);
         childIndex = i;
@@ -229,10 +221,10 @@ Tree.prototype.delete = function(data, parentData, traversal) {
       }
     }
     if (childIndex === undefined) {
-      console.warn('Could not find the child node with the given data.');
+      throw new Error('Cannot find the child node with the given data.');
     }
   } else {
-    console.warn('Could not find the parent node with the given data.');
+    throw new Error('Cannot find the parent node with the given data.');
   }
 
   function _findParent(currentNode) {
@@ -266,12 +258,6 @@ Tree.prototype.isEmpty = function() {
 Tree.prototype.clear = function() {
   this._root.children.length = 0;
   this._root = undefined;
-
-  if (_eventCallbacks.hasOwnProperty('change')) {
-    _eventCallbacks.change.forEach(function(callback) {
-      callback({triggeredBy: 'clear'});
-    });
-  }
 };
 
 /**
@@ -290,11 +276,6 @@ Tree.prototype.addToRoot = function(data) {
     root.children.push(this._root);
     this._root.parent = root;
     this._root = root;
-  }
-  if (_eventCallbacks.hasOwnProperty('change')) {
-    _eventCallbacks.change.forEach(function(callback) {
-      callback({triggeredBy: 'addToRoot'});
-    });
   }
 };
 

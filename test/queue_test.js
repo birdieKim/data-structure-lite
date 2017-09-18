@@ -1,6 +1,6 @@
 var qunit = require('qunitjs');
-var Queue = require('../src/queue');
-var PriorityQueue = require('../src/priorityQueue');
+var Queue = require('../queue');
+var PriorityQueue = require('../priorityQueue');
 
 qunit.module('queue');
 
@@ -24,8 +24,6 @@ qunit.test('Queue test', function(assert) {
   assert.equal(queue.peek(), undefined);
   assert.equal(queue.getRear(), 0);
 
-
-
   queue.enqueue(1);
   queue.enqueue(2);
   queue.enqueue(3);
@@ -47,7 +45,6 @@ qunit.test('Priority Queue test', function(assert) {
   assert.deepEqual(pqueue.storage[10], ['Bear']);
   pqueue.enqueue('Bird', 10);
   assert.equal(pqueue.maxPriority, 10);
-
 
   pqueue.enqueue('Bugs', 0);
   assert.equal(pqueue.maxPriority, 10);

@@ -1,9 +1,39 @@
-var Stack = function() {
+/**
+ *
+ * Create a stack
+ *
+ * @param {*} [element]
+ *   The element to be inserted to the stack
+ */
+var Stack = function(element) {
   this.elements = [];   // the array where elements are stored
+  if (element) {
+    this.elements.push(element);
+  }
 };
 
 Stack.prototype = Object.create(require('./arrayData').prototype);
 Stack.prototype.constructor = Stack;
+
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+Stack.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+};
+
+Stack.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+    _eventCallbacks[eventName].splice(index, 1);
+  }
+};
 
 /**
  *
@@ -32,6 +62,7 @@ Stack.prototype.pop = function() {
     return this.elements.pop();
   } else {
     console.warn('The stack is empty.');
+    return undefined;
   }
 };
 

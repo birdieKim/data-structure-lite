@@ -3,6 +3,26 @@ var PriorityQueue = function() {
   this.maxPriority = 0;  // the max priority - Larger numbers indicate higher priority
 };
 
+var _eventCallbacks = {};
+var _canvasObjects = [];
+
+PriorityQueue.prototype.addEventListener = function(eventName, callback) {
+  // prevent unkown eventName
+  if (_eventCallbacks[eventName] === undefined) {
+    _eventCallbacks[eventName] = [];
+  }
+
+  _eventCallbacks[eventName].push(callback);
+};
+
+PriorityQueue.prototype.removeEventListener = function(eventName, callback) {
+  var index = _eventCallbacks[eventName].indexOf(callback);
+
+  if (index !== -1) {
+    _eventCallbacks[eventName].splice(index, 1);
+  }
+};
+
 /**
  *
  * Insert an element to the queue with the position decided by its priority
@@ -33,7 +53,7 @@ PriorityQueue.prototype.enqueue = function(element, priority) {
     }
     return this.maxPriority;
   } else {
-    console.warn('The priority for the element is not passed in.');
+    console.warn('The priority for the element is not a natural number.');
     return undefined;
   }
 };
@@ -65,8 +85,7 @@ PriorityQueue.prototype.getMaxPriority = function() {
     var keys = Object.keys(this.storage);
     return keys[keys.length - 1];
   } else {
-    console.warn('The queue is empty.' +
-    'Cannot get the max priority in the queue.');
+    console.warn('The queue is empty. Cannot get the max priority in the queue.'); // jscs:disable
     return undefined;
   }
 };
@@ -101,8 +120,7 @@ PriorityQueue.prototype.dequeue = function(priority) {
     }
     return element;
   } else {
-    console.warn('The queue is empty or' +
-    'the priority passed in does not exist in the queue.');
+    console.warn('The queue is empty or the priority passed in does not exist in the queue.');
     return undefined;
   }
 };
