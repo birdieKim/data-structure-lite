@@ -25,13 +25,13 @@ queue.enqueue(100);   // return: 1, queue: [100]
 queue.enqueue(200);   // return: 2, queue: [100, 200]
 queue.enqueue(300);   // return: 3, queue: [100, 200, 300]
 
-queue.peek();       // return: 100
-queue.dequeue();    // return: 100, queue: [200, 300]
-queue.dequeue();    // return: 200, queue: [300]
-queue.getRear();    // return: 100, queue: []
-queue.clear();      // queue: []
-queue.isEmpty();    // return: true
-queue.dequeue();    // return: undefined
+queue.peek();         // return: 100
+queue.dequeue();      // return: 100, queue: [200, 300]
+queue.dequeue();      // return: 200, queue: [300]
+queue.getRear();      // return: 100, queue: []
+queue.clear();        // queue: []
+queue.isEmpty();      // return: true
+queue.dequeue();      // return: undefined
 ```
 
 
@@ -120,18 +120,18 @@ Examples:
 ```javascript
 var linkedList = new LinkedList();
 
-linkedList.head;              // return: null
-linkedList.insert(3, -2);     // return: undefined (index passed in is not a natural number)
-linkedList.remove(-2);        // return: undefined (index passed in is not a natural number)
+linkedList.head;                    // return: null
+linkedList.insert(3, -2);           // return: undefined (index passed in is not a natural number)
+linkedList.remove(-2);              // return: undefined (index passed in is not a natural number)
 
-linkedList.add(5);            // return: {data: 5, next: null}
-linkedList.head;              // return: {data: 5, next: null}
+linkedList.add(5);                  // return: {data: 5, next: null}
+linkedList.head;                    // return: {data: 5, next: null}
 
-linkedList.add(7);            // return: {data: 7, next: {data:5, next: null}}
-linkedList.add(10);           // return: {data: 10, next: {data:7, next: {data:5, next: null}}}
-linkedList.add(15);           // return: {data: 15, next: {data:10,
-                              //          next: {data:7, next: {data:5, next: null}}}}
-linkedList.head.data;         // return: 15
+linkedList.add(7);                  // return: {data: 7, next: {data:5, next: null}}
+linkedList.add(10);                 // return: {data: 10, next: {data:7, next: {data:5, next: null}}}
+linkedList.add(15);                 // return: {data: 15, next: {data:10,
+                                    //          next: {data:7, next: {data:5, next: null}}}}
+linkedList.head.data;               // return: 15
 
 linkedList.insert(8, 3);            // return: {data: 8, next: {data:5, next: null}}
 linkedList.searchNodeAt(3).data;    // return: 8
@@ -141,16 +141,69 @@ linkedList.remove(2);               // return: {data: 7, next: {data: 8, next: {
 linkedList.searchNodeAt(2).data;    // return: 8
 linkedList.length;                  // return: 4
 
-linkedList.remove(3).data;          // return: {data:5, next: null}
+linkedList.remove(3);               // return: {data:5, next: null}
 
 linkedList.clear();
 linkedList.isEmpty();               // return: true
 ```
 
 ### Doubly Linked List
+------------
+Create a doubly linked list:
+```javascript
+var doublyLinkedList = new DoublyLinkedList();
 ```
-Give the examples
+If you have a data for the first data in the list:
+```javascript
+// if you have 10 as the first data for the list
+var doublyLinkedList = new DoublyLinkedList(10);
 ```
+Examples:
+```javascript
+var doublyLinkedList = new doublyLinkedList();
+
+doublyLinkedList.head;              // return: null
+doublyLinkedList.length;            // return: 0
+
+doublyLinkedList.addLast(10);       // return: {data: 10, next: null, previous: null}
+doublyLinkedList.head;              // return: {data: 10, next: null, previous: null}
+doublyLinkedList.tail;              // return: {data: 10, next: null, previous: null}
+
+doublyLinkedList.addLast(20);       // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+doublyLinkedList.head;              // return: {data: 10, next: {data: 20, next: null,
+                                    //                           previous: {data: 10, next: null, previous: null}},
+                                    //          previous: null}
+doublyLinkedList.tail;              // return: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+
+doublyLinkedList.insert(40, 2);     // return: {data: 40, next: null,
+                                    //          previous: {data: 20, next: null, previous: {data: 10, next: null, previous: null}}
+doublyLinkedList.tail.data;           // return: 40
+doublyLinkedList.tail.previous.data;  // return: 20
+
+doublyLinkedList.insert(30, 2);       // return: {data: 30,
+                                      //          next: {data: 40, next: null, previous: {data: 30, next: {data: 40, ...}},
+                                      //          previous: {data: 20, next: {data: 30, ...}, previous: {data: 10, ...}}}
+doublyLinkedList.tail.data;           // return: 40
+doublyLinkedList.tail.previous.data;  // return: 30
+
+doublyLinkedList.addLast(50);         // return: {data: 50, next: null,
+                                      //          previous: {data: 40, next: {data: 50, ...}, previous: {data: 30, ...}}}
+doublyLinkedList.addLast(60);         // return: {data: 60, next: null,
+                                      //          previous: {data: 50, next: {data: 60, ...}, previous: {data: 40, ...}}}
+doublyLinkedList.searchNodeAt(0);     // return: {data: 10,
+                                      //          next: {data: 20, next: {data: 30, ...}, previous: {data: 10, ...}},
+                                      //          previous: null}
+doublyLinkedList.searchNodeAt(2);     // return: {data: 30,
+                                      //          next: {data: 40, next: {data: 50, ...}, previous: {data: 30, ...}},
+                                      //          previous: {data: 20, ...}}
+
+doublyLinkedList.remove(5);           // return: {data: 60, next: null, previous: {data: 50, ...}}
+doublyLinkedList.insert(70, -2);      // return: undefined
+
+doublyLinkedList.clear();
+doublyLinkedList.isEmpty();           // return: true
+```
+
 ### Tree
 ```
 Give the examples
