@@ -146,11 +146,6 @@ Tree.prototype.insert = function(data, parentData, traversal) {
     } else {
       parent.children.push(child);
       child.parent = parent;
-      if (_eventCallbacks.hasOwnProperty('change')) {
-        _eventCallbacks.change.forEach(function(callback) {
-          callback({node: child, traversal: traversal, triggeredBy: 'insert'});
-        });
-      }
     }
   } else {
     throw new Error('Cannot find the parent node with the given data.');
@@ -192,6 +187,9 @@ Tree.prototype.delete = function(data, parentData, traversal) {
   if (parent) {
     for (var i = 0 ; i < parent.children.length; i++) {
       if (this._equal(data, parent.children[i].data)) {
+        if (parent.children[i].children.length > 0) {
+          console.log('There are more than 1 children nodes in the node with the given data.');
+        }
         parent.children[i].parent = null;
         parent.children.splice(i, 1);
         childIndex = i;
