@@ -129,7 +129,7 @@ BinarySearchTree.prototype.search = function(data, node, level) {
       this.search(data, node.right, level + 1);
     }
   } else {
-    console.warn('Could not find the given node.');
+    console.warn('Cannot search a node with the given data.');
     return undefined;
   }
 };
@@ -195,6 +195,7 @@ BinarySearchTree.prototype.delete = function(data, node, isFound) {
     if (this._compare(data, node.data) < 0) {
       node.left = this.delete(data, node.left, false);
     } else if (this._compare(data, node.data) === 0) {
+      isFound = true;
       if (node.left === null) {  // if the node has one right child or no child
         return node.right;
       } else if (node.right === null) {  // if the node has one left child
@@ -207,16 +208,15 @@ BinarySearchTree.prototype.delete = function(data, node, isFound) {
     } else if (this._compare(data, node.data) > 0) {
       node.right = this.delete(data, node.right, false);
     }
+    if (!isFound && node === this._root) {
+      console.warn('Cannot find a node with the given data.');
+      return undefined;
+    }
 
     return node;
 
   } else {
-    if (isFound) {
-      return null; // jscs:disable
-    } else {
-      console.warn('Cannot find the node with the given data.');
-      return undefined;
-    }
+    return null;
   }
 };
 
