@@ -1,6 +1,6 @@
 # Data Structure Lite
 Data Structure Lite is a JavaScript library for data structure focused on a few main functions.
-It supports these data structures: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap
+It supports data structures as follows: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap
 
 ## Getting Started
 ### Install
@@ -19,6 +19,7 @@ var DSLite = require('data-structure-lite');
 ```
 If you need a certain module in this library:
 ```javascript
+// An example of queue
 var Queue = require('data-structure-lite/queue');
 ```
 
