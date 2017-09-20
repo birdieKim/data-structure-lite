@@ -9,8 +9,8 @@ Install with npm:
 npm install data-structure-lite
 ```
 Import into your file:
-```
-<script src="/path/to/data-structure-lite.min.js"></script>
+```html
+<script type="text/javascript" src="/path/to/data-structure-lite.min.js"></script>
 ```
 ### Require
 If you need a whole library:
@@ -21,6 +21,27 @@ If you need a certain module in this library:
 ```javascript
 // An example of queue
 var Queue = require('data-structure-lite/queue');
+
+// An example of priority queue
+var PriorityQueue = require('data-structure-lite/priorityQueue');
+
+// An example of stack
+var Stack = require('data-structure-lite/stack');
+
+// An example of linked list
+var LinkedList = require('data-structure-lite/linkedList');
+
+// An example of doubly linked list
+var DoublyLinkedList = require('data-structure-lite/doublyLinkedList');
+
+// An example of tree
+var Tree = require('data-structure-lite/tree');
+
+// An example of binary search tree
+var BinarySearchTree = require('data-structure-lite/binarySearchTree');
+
+// An example of heap
+var Heap = require('data-structure-lite/heap');
 ```
 
 ## Supported Data Structure
