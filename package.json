@@ -1,8 +1,8 @@
 {
-  "name": "ds-lite",
+  "name": "data-structure-lite",
   "version": "1.0.0",
   "description": "Lite data structure library",
-  "main": "ds-lite",
+  "main": "data-structure-lite",
   "scripts": {
     "test": "webpack && webpack-dev-server",
     "prod": "webpack"

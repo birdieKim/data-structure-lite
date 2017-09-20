@@ -5,11 +5,11 @@ switch (process.env.npm_lifecycle_event) {
   case 'prod':
     module.exports = {
       entry: [
-        './src/entry.js'
+        './src/data-structure-lite.js'
       ],
       output: {
         path: __dirname + '/dist/',
-        filename: 'birdieDS.js'
+        filename: 'data-structure-lite.js'
       }
     };
     break;
