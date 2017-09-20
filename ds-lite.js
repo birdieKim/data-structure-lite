@@ -3,7 +3,7 @@ module.exports = {
   Queue: require('./queue'),
   PriorityQueue: require('./priorityQueue'),
   LinkedList: require('./linkedList'),
-  DoublyLinkedList: require('./doublylinkedList'),
+  DoublyLinkedList: require('./doublyLinkedList'),
   Tree: require('./tree'),
   BinarySearchTree: require('./binarySearchTree'),
   Heap: require('./heap')
