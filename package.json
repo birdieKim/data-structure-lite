@@ -1,7 +1,7 @@
 {
   "name": "data-structure-lite",
   "version": "1.0.0",
-  "description": "Lite data structure library",
+  "description": "Data structure library",
   "main": "data-structure-lite",
   "scripts": {
     "test": "webpack && webpack-dev-server",
@@ -9,32 +9,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/birdieKim/UI-Bird.git"
+    "url": "git+https://github.com/birdieKim/data-structure-lite.git"
   },
   "author": "Birdie Yaejin Kim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/birdieKim/UI-Bird/issues"
+    "url": "https://github.com/birdieKim/data-structure-lite/issues"
   },
-  "homepage": "https://github.com/birdieKim/UI-Bird#readme",
+  "homepage": "https://github.com/birdieKim/data-structure-lite#readme",
   "devDependencies": {
     "css-loader": "^0.28.4",
-    "less-loader": "^4.0.5",
+    "qunitjs": "^2.4.0",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.6.1",
-    "qunitjs": "^2.4.0"
+    "webpack-dev-server": "^2.6.1"
   },
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "css-loader": "^0.28.4",
-    "jquery": "^3.2.1",
-    "less-loader": "^4.0.5",
-    "qunitjs": "^2.4.0",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+
   }
 }

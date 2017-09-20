@@ -1,16 +1,20 @@
 var webpack = require('webpack');
 var path = require('path');
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 switch (process.env.npm_lifecycle_event) {
   case 'prod':
     module.exports = {
       entry: [
-        './src/data-structure-lite.js'
+        './data-structure-lite.js'
       ],
       output: {
         path: __dirname + '/dist/',
-        filename: 'data-structure-lite.js'
-      }
+        filename: 'data-structure-lite.min.js'
+      },
+      plugins: [
+        new UglifyJSPlugin()
+      ]
     };
     break;
   case 'test':
@@ -34,41 +38,9 @@ switch (process.env.npm_lifecycle_event) {
             }
           ]
       },
-      plugins: [new webpack.HotModuleReplacementPlugin()]
+      plugins: [
+        new webpack.HotModuleReplacementPlugin()
+      ]
     };
     break;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-// module.exports = {
-//   entry: [
-//     './src/entry.js'
-//   ],
-//   output: {
-//     path: __dirname + '/dist/',
-//     filename: 'birdieDS.js'
-//   },
-//   devServer: {
-//     hot: true,
-//     contentBase: __dirname + '/dist/',
-//   },
-//   module: {
-//       loaders: [
-//         {
-//           test: /\.less$/,
-//           loader: 'style-loader!css-loader!less-loader'  // use ! to chain loaders
-//         }
-//       ]
-//   },
-//   plugins: [ new webpack.HotModuleReplacementPlugin() ]
-// }
