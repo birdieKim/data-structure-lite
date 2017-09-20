@@ -37,7 +37,7 @@ qunit.test('Tree test', function(assert) {
   tree._root.children[2].children[0].parent = tree._root.children[2];
 
   array = tree.traverse('BF', function(node) {
-    //console.log(node.data);
+    console.log(node.data);
   });
 
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'seven']); // jscs:disable

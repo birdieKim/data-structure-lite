@@ -34,11 +34,10 @@ switch (process.env.npm_lifecycle_event) {
             }
           ]
       },
-      plugins: [ new webpack.HotModuleReplacementPlugin() ]
+      plugins: [new webpack.HotModuleReplacementPlugin()]
     };
     break;
 }
-
 
 
 
