@@ -6,7 +6,7 @@ Data Structure Lite is a JavaScript library for data structure focused on a few 
 
 ## Supported Data Structure
 
-------------
+
 ### Queue
 Create a queue:
 ```javascript
@@ -14,7 +14,7 @@ var queue = new Queue();
 ```
 If you have a data for the first element in the queue:
 ```javascript
-// if you have 10 as the first element for the queue
+// If you have 10 as the first element for the queue
 var queue = new Queue(10);
 ```
 Examples:
@@ -69,7 +69,7 @@ var stack = new Stack();
 ```
 If you have a data for the first element in the stack:
 ```javascript
-// if you have 10 as the first element for the stack
+// If you have 10 as the first element for the stack
 var stack = new Stack(10);
 ```
 Examples:
@@ -110,7 +110,7 @@ var linkedList = new LinkedList();
 ```
 If you have a data for the first data in the list:
 ```javascript
-// if you have 10 as the first data for the list
+// If you have 10 as the first data for the list
 var linkedList = new LinkedList(10);
 ```
 Examples:
@@ -152,7 +152,7 @@ var doublyLinkedList = new DoublyLinkedList();
 ```
 If you have a data for the first data in the list:
 ```javascript
-// if you have 10 as the first data for the list
+// If you have 10 as the first data for the list
 var doublyLinkedList = new DoublyLinkedList(10);
 ```
 Examples:
@@ -218,8 +218,9 @@ var equalFunc = function(a, b)  {
     return false;
   }
 };
-// if you have 10 as data of the first node, 2 as the max number of children that the parent node can have
+// If you have 10 as data of the first node, 2 as the max number of children that the parent node can have
 // and a function for checking the equality between nodes
+// If the equalFunc is undefined, the default function would be same as above.
 var tree = new Tree(10, 2, equalFunc);
 ```
 Examples:
@@ -278,13 +279,126 @@ tree.isEmpty();                       // return: true
 
 ------------
 ### Binary Search Tree
+Create a binary search tree:
+```javascript
+var tree = new BinarySearchTree();
 ```
-Give the examples
+If you have a data for the root node, the maximum number of children and a function for comparison between nodes:
+```javascript
+// A Function for comparison between nodes
+// SHOULD have 2 parameters and return these:
+//      a < b   : return negative value
+//      a === b : return 0
+//      a > b   : return positive value
+var comapreFunc = function(a, b)  {
+  return a - b;
+};
+// If you have 10 as data of the first node
+// and a function for checking the equality between nodes
+// If the compareFunc is undefined, the default function would be same as above.
+var tree = new BinarySearchTree(10, compareFunc);
 ```
+Examples:
+```javascript
+var comapreFunc = function(a, b)  {
+  return a - b;
+};
+
+var tree = new BinarySearchTree(10, compareFunc);
+
+tree._root;                           // return: {data: 10, left: null, right: null}
+
+tree.insert(5);
+tree.insert(20);
+tree.insert(15);
+tree.insert(7);
+tree.insert(25);
+
+tree.traverse('In-order');            // return: [5, 7, 10, 15, 20, 25]
+
+tree.insert(3);                      
+
+tree.delete(10);
+tree.search(50);                      // return: undefined (50 is not in the binary search tree)
+
+tree.traverse('Pre-order');           // return: [15, 5, 3, 7, 20, 25]
+tree.delete(0);                       // return: undefined (0 is not in the binary search tree)
+
+tree.search(15);                      // return: {data: 15, left: {data: 5, ...}, right: {data: 20, ...}}
+
+tree.traverse('Post-order');          // return: [3, 7, 5, 25, 20, 15]
+
+tree.findMinNode();                   // return: {data: 3, left: null, right: null
+tree.findMaxNode();                   // return: {data: 15, left: null, right: null
+
+tree.clear();
+tree.isEmpty();                       // return: true
+tree._root;                           // return: undefined
+tree.traverse('Pre-order');           // return: undefined
+tree.delete(0);                       // return: undefined (0 is not in the binary search tree)
+tree.search(10);                      // return: undefined (The binary search tree is empty)
+```
+
+
 
 
 ------------
 ### Heap
+Create a heap:
+```javascript
+var heap = new Heap();
 ```
-Give the examples
+If you have a data for the root node or an array data for the heap, the maximum number of children and a function for comparison between nodes and the type for the heap ('MinHeap'/'MaxHeap' - 'MinHeap' is a default):
+```javascript
+// A Function for comparison between nodes
+// SHOULD have 2 parameters and return these:
+//      a < b   : return negative value
+//      a === b : return 0
+//      a > b   : return positive value
+var comapreFunc = function(a, b)  {
+  return a - b;
+};
+// If you have 10 as data of the first node
+// and a function for checking the equality between nodes
+// If the compareFunc is undefined, the default function would be same as above.
+// If you want to have a min heap:
+var heap = new Heap(10, compareFunc, 'MinHeap');
+
+// If you have an array [1 ,2 , 3, 4, 5]
+// and a function for checking the equality between nodes
+// If the compareFunc is undefined, the default function would be same as above.
+// If you want to have a max heap:
+var anotherHeap = new Heap([1, 2, 3, 4, 5], compareFunc, 'MaxHeap');
+```
+Examples:
+```javascript
+var comapreFunc = function(a, b)  {
+  return a - b;
+};
+
+var heap = new Heap(10, compareFunc, 'MaxHeap');
+
+heap.getRoot();                       // return: 10
+heap._type;                           // 'MaxHeap'
+heap.insert(30);
+heap._heapArray;                      // return: [30, 10]
+
+
+heap = new Heap([50, 40, 30, 20, 10]);
+
+heap.getRoot();                       // return: 10
+heap._type;                           // return: 'MinHeap'
+heap.deleteRoot();                    // return: 10
+heap._heapArray;                      // return: [20, 30, 40, 50]
+
+
+heap = new Heap([100, 80, 70, 120, 50], undefined, 'MaxHeap');
+
+heap._heapArray;                      // return: [120, 100, 70, 80, 50]
+heap.deleteRoot();                    // return: 120
+heap.getRoot();                       // return: 100
+heap.isEmpty();                       // return: false
+heap.clear();
+heap.getRoot();                       // return: undefined (The heap is empty)
+heap.isEmpty();                       // return: true
 ```
