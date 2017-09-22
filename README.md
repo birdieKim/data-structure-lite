@@ -3,19 +3,22 @@ Data Structure Lite is a JavaScript library for data structure focused on a few 
 It supports data structures as follows: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap
 
 ## Getting Started
-### Install
+### Installing
 Install with npm:
 ```
 npm install data-structure-lite
 ```
-Import into your file:
+Import into your file (you can download the minimized js file at: [github.com/birdieKim/data-structure-lite](github.com/birdieKim/data-structure-lite)):
 ```html
 <script type="text/javascript" src="/path/to/data-structure-lite.min.js"></script>
 ```
-### Require
+### Usage
 If you need a whole library:
 ```javascript
 var DSLite = require('data-structure-lite');
+
+// then you can use each module
+var queue = new DSLite.Queue();
 ```
 If you need a certain module in this library:
 ```javascript
@@ -42,6 +45,47 @@ var BinarySearchTree = require('data-structure-lite/binarySearchTree');
 
 // An example of heap
 var Heap = require('data-structure-lite/heap');
+```
+
+### Running Unit Tests
+If you want to run the test:
+```
+npm run test
+```
+
+### Exporting
+If you want to export a whole library to a minimized file:
+```
+npm run prod
+```
+Then, you will get data-structure-lite.min.js file in 'dist' folder.
+------------
+If you want to export only a certain module to a minimized file:
+```
+npm run prod_queue
+```
+Then, you will get queue.min.js file.
+Exporting other modules works in the same way as below.
+```
+npm run prod_priorityQueue
+```
+```
+npm run prod_stack
+```
+```
+npm run prod_linkedList
+```
+```
+npm run prod_doublyLinkedList
+```
+```
+npm run prod_tree
+```
+```
+npm run prod_binarySearchTree
+```
+```
+npm run prod_heap
 ```
 
 ## Supported Data Structure
