@@ -5,7 +5,15 @@
   "main": "data-structure-lite",
   "scripts": {
     "test": "webpack && webpack-dev-server",
-    "prod": "webpack"
+    "prod": "webpack",
+    "prod_queue": "webpack",
+    "prod_priorityQueue": "webpack",
+    "prod_stack": "webpack",
+    "prod_linkedList": "webpack",
+    "prod_doublyLinkedList": "webpack",
+    "prod_tree": "webpack",
+    "prod_binarySearchTree": "webpack",
+    "prod_heap": "webpack"
   },
   "repository": {
     "type": "git",
