@@ -1,6 +1,6 @@
 # Data Structure Lite
 Data Structure Lite is a JavaScript library for data structure focused on a few main functions.
-It supports data structures as follows: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap
+It supports data structures as follows: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap. Each data structure can be used as an independent module. The data visualisation for Tree, Binary Search Tree and Heap is being prepared.
 
 ## Getting Started
 ### Installing
@@ -59,13 +59,13 @@ If you want to export a whole library to a minimized file:
 npm run prod
 ```
 Then, you will get data-structure-lite.min.js file in 'dist' folder.
-------------
+
 If you want to export only a certain module to a minimized file:
 ```
 npm run prod_queue
 ```
 Then, you will get queue.min.js file.
-Exporting other modules works in the same way as below.
+Exporting other modules works in the same way as below:
 ```
 npm run prod_priorityQueue
 ```
