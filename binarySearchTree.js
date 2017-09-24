@@ -71,6 +71,11 @@ BinarySearchTree.prototype.traverse = function(traversal, node, level) {
   node = node === undefined ? null : node;
 
   if (node) {   // if the node exists
+    if (!~['Pre-order', 'In-order', 'Post-order'].indexOf(traversal)) {
+      console.warn('The traversal passed in does not exist. Proceed with "Pre-order" as a default.'); //jscs:disable
+      traversal = 'Pre-order';
+    }
+
     if (traversal === 'Pre-order' || traversal === undefined) {
       _returnArray.push(node.data);
       this.traverse(traversal, node.left, level + 1);
@@ -90,7 +95,6 @@ BinarySearchTree.prototype.traverse = function(traversal, node, level) {
 
       return _returnArray;
     } else {
-      throw new Error('The traversal passed in does not exist.');
       return undefined;
     }
   } else {
@@ -179,21 +183,23 @@ BinarySearchTree.prototype.insert = function(data, node, level) {
  * @param {BinaryTreeNode} [node=this._root]
  *   The root node starting traversal from
  *
- * @return {BinaryTreeNode|undefined}
- *   The deleted binary tree node
+ * @return {BinaryTreeNode|undefined|null}
+ *   The given binary tree node node
  *   Return undefined, if the node with the given data does not exist in the tree
  */
-BinarySearchTree.prototype.delete = function(data, node, isFound) {
+BinarySearchTree.prototype.delete = function(data, node, isFound, level) {
   if (isFound === undefined) {
     isFound = false;
     node = node === undefined ? this._root : node;
   }
 
+  level = level === undefined ? 0 : level;
+
   node = node === undefined ? null : node;
 
   if (node) {
     if (this._compare(data, node.data) < 0) {
-      node.left = this.delete(data, node.left, false);
+      node.left = this.delete(data, node.left, false, level + 1);
     } else if (this._compare(data, node.data) === 0) {
       isFound = true;
       if (node.left === null) {  // if the node has one right child or no child
@@ -203,12 +209,12 @@ BinarySearchTree.prototype.delete = function(data, node, isFound) {
       } else {  // if the node has two children
         var minNode = this.findMinNode(node.right);
         node.data = minNode.data;
-        node.right = this.delete(minNode.data, node.right, true);
+        node.right = this.delete(minNode.data, node.right, true, level + 1);
       }
     } else if (this._compare(data, node.data) > 0) {
-      node.right = this.delete(data, node.right, false);
+      node.right = this.delete(data, node.right, false, level + 1);
     }
-    if (!isFound && node === this._root) {
+    if (!isFound && level === 0) {
       console.warn('Cannot find a node with the given data.');
       return undefined;
     }

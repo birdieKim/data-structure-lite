@@ -23,9 +23,9 @@ var Heap = function(data, compareFunc, type) {
   } : compareFunc;
   this._type = type === undefined ? 'MinHeap' : type;
 
-  if (this._type != 'MinHeap' && this._type != 'MaxHeap') {
-    throw new Error('The type of the heap passed in does not exist.' +
-    'It must be either MinHeap or MaxHeap.');
+  if (this._type !== 'MinHeap' && this._type !== 'MaxHeap') {
+    console.warn('The type of the heap passed in does not exist. Proceed with MinHeap as a default.'); //jscs:disable
+    this._type = 'MinHeap';
   }
 
   if (Array.isArray(data)) {   // if the data is array, create a heap with inserting each element in the array

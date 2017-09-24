@@ -68,6 +68,12 @@ Tree.prototype.removeEventListener = function(eventName, callback) {
  */
 Tree.prototype.traverse = function(traversal, func) {
   var order = []; // an array for nodes in order by the traversal
+
+  if (!~['BF', 'DF'].indexOf(traversal)) {
+    console.warn('The traversal passed in does not exist. Proceed with "BF" as a default.'); //jscs:disable
+    traversal = 'BF';
+  }
+
   if (traversal === 'BF' || traversal === undefined) {
     var queue = new Queue();
 
