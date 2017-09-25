@@ -149,7 +149,7 @@ BinarySearchTree.prototype.search = function(data, node, level) {
  *   The root node starting traversal from
  *
  * @return {BinaryTreeNode}
- *   A binary tree node with the given data
+ *   The inserted binary tree node
  */
 BinarySearchTree.prototype.insert = function(data, node, level) {
   if (level === undefined) {
@@ -166,10 +166,13 @@ BinarySearchTree.prototype.insert = function(data, node, level) {
       node.right = this.insert(data, node.right, level + 1);
     }
 
-    return node;
+    if (level === 0) {
+      return new BinaryTreeNode(data);
+    } else {
+      return node;
+    }
   } else {
-    var newNode = new BinaryTreeNode(data);
-    return newNode;
+    return new BinaryTreeNode(data);
   }
 };
 
@@ -184,7 +187,7 @@ BinarySearchTree.prototype.insert = function(data, node, level) {
  *   The root node starting traversal from
  *
  * @return {BinaryTreeNode|undefined|null}
- *   The given binary tree node node
+ *   The given binary tree node
  *   Return undefined, if the node with the given data does not exist in the tree
  */
 BinarySearchTree.prototype.delete = function(data, node, isFound, level) {
@@ -203,8 +206,16 @@ BinarySearchTree.prototype.delete = function(data, node, isFound, level) {
     } else if (this._compare(data, node.data) === 0) {
       isFound = true;
       if (node.left === null) {  // if the node has one right child or no child
+        if (node === this._root) {
+          this.clear();
+        }
+
         return node.right;
       } else if (node.right === null) {  // if the node has one left child
+        if (node === this._root) {
+          this.clear();
+        }
+
         return node.left;
       } else {  // if the node has two children
         var minNode = this.findMinNode(node.right);

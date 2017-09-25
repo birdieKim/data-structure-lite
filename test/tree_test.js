@@ -45,11 +45,12 @@ qunit.test('Tree test', function(assert) {
   array = tree.traverse('DF', function(node) {});
   assert.deepEqual(array, ['one', 'two', 'five', 'six', 'three', 'four', 'seven']); // jscs:disable
 
-  tree.insert('eight', 'three', 'BF');
+  assert.equal(tree.insert('eight', 'three', 'BF').data, 'eight');
   array = tree.traverse('BF');
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'eight', 'seven']); // jscs:disable
 
-  tree.delete('eight', 'three', 'BF');
+  assert.equal(tree.delete('eight', 'ten', 'BF'), undefined);
+  assert.equal(tree.delete('eight', 'three', 'BF').data, 'eight');
   array = tree.traverse('BF');
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'seven']); // jscs:disable
 
@@ -58,11 +59,7 @@ qunit.test('Tree test', function(assert) {
   array = tree.traverse('BF');
   assert.deepEqual(array, ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven']); // jscs:disable
 
-  try {
-    tree.insert('eight', 'one', 'BF');
-  } catch (e) {
-    console.log(e);
-  }
+  assert.equal(tree.insert('eight', 'one', 'BF'), undefined);
 
   array = tree.traverse('DF');
   assert.deepEqual(array, ['zero', 'one', 'two', 'five', 'six', 'three', 'four', 'seven']);

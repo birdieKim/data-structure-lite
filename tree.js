@@ -117,9 +117,7 @@ Tree.prototype.traverse = function(traversal, func) {
     }
 
     return order;
-  } else {
-    throw new Error('The traversal passed in does not exist.');
-  }
+  } 
 };
 
 /**
@@ -138,6 +136,11 @@ Tree.prototype.traverse = function(traversal, func) {
  *      "BF" - Breadth-first search
  *      "DF" - Depth-first search in pre-order traversal
  *   If this parameter is undefined, the traversal will be 'BF' as a default
+ *
+ * @return {TreeNode|undefined}
+ *   The inserted node
+ *   Return undefined, if the parent node with the given parent data doesn't exist
+ *   or the parent node already has enough children according to maxChildrenNum
  */
 Tree.prototype.insert = function(data, parentData, traversal) {
   var child = new TreeNode(data);
@@ -148,13 +151,16 @@ Tree.prototype.insert = function(data, parentData, traversal) {
 
   if (parent) {
     if (this._maxChildrenNum && parent.children.length >= this._maxChildrenNum) { // jscs:disable
-      throw new Error('The parent node already has enough children.');
+      console.warn('The parent node already has enough children.');
+      return undefined;
     } else {
       parent.children.push(child);
       child.parent = parent;
+      return child;
     }
   } else {
-    throw new Error('Cannot find the parent node with the given data.');
+    console.warn('Cannot find the parent node with the given data.');
+    return undefined;
   }
 
   function _findParent(currentNode) {
@@ -182,10 +188,16 @@ Tree.prototype.insert = function(data, parentData, traversal) {
  *      "BF" - Breadth-first search
  *      "DF" - Depth-first search in pre-order traversal
  *   If this parameter is undefined, the traversal will be 'BF' as a default
+ *
+ * @return {TreeNode|undefined}
+ *   The removed node
+ *   Return undefined, if the node with the given data doesn't exist
+ *   or the parent node with the given parent data doesn't exist
  */
 Tree.prototype.delete = function(data, parentData, traversal) {
   var childIndex;
   var parent;
+  var removedNode;
 
   traversal = traversal === undefined ? 'BF' : traversal;
   this.traverse(traversal, _findParent);
@@ -194,19 +206,24 @@ Tree.prototype.delete = function(data, parentData, traversal) {
     for (var i = 0 ; i < parent.children.length; i++) {
       if (this._equal(data, parent.children[i].data)) {
         if (parent.children[i].children.length > 0) {
-          console.log('There are more than 1 children nodes in the node with the given data.');
+          console.warn('There are more than 1 children nodes in the node with the given data.');
         }
+        removedNode = parent.children[i];
         parent.children[i].parent = null;
         parent.children.splice(i, 1);
         childIndex = i;
         break;
       }
     }
-    if (childIndex === undefined) {
-      throw new Error('Cannot find the child node with the given data.');
+    if (childIndex !== undefined) {
+      return removedNode;
+    } else {
+      console.warn('Cannot find the child node with the given data.');
+      return undefined;
     }
   } else {
-    throw new Error('Cannot find the parent node with the given data.');
+    console.warn('Cannot find the parent node with the given data.');
+    return undefined;
   }
 
   function _findParent(currentNode) {

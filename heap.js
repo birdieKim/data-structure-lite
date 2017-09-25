@@ -32,7 +32,7 @@ var Heap = function(data, compareFunc, type) {
     for (var i = 0; i < data.length; i++) {
       this.insert(data[i]);
     }
-  } else {
+  } else if (data !== undefined){
     this._heapArray.push(data);
   }
 
@@ -121,16 +121,9 @@ Heap.prototype.deleteRoot = function() {
  *   The index of the node in the heap array to be swaped
  */
 function _swap(i, j) {
-  if (this._heapArray[i] === undefined) {
-    throw new Error('The heap array does not have a value with the given index as a first parameter.');
-  } else if (this._heapArray[j] === undefined) {
-    throw new Error('The heap array does not have a value with the given index as a second parameter.');
-  } else {
     var temp = this._heapArray[i];
     this._heapArray[i] = this._heapArray[j];
     this._heapArray[j] = temp;
-  }
-
 }
 
 /**
