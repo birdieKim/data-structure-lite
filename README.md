@@ -307,6 +307,14 @@ var equalFunc = function(a, b)  {
 // If the equalFunc is undefined, the default function would be same as above.
 var tree = new Tree(10, 2, equalFunc);
 ```
+Add & Remove event callbacks
+You can add or remove event callbacks using addEventListener() function.
+For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
+The callback provides an event object which has 2 properties: data<Node>, triggeredBy<String>['insert', 'delete', 'clear', 'addToRoot']
+```javascript
+tree.addEventListener('change', callback);
+tree.removeEventListener('change', callback);
+```
 Examples:
 ```javascript
 var equalFunc = function(a, b)  {
@@ -357,7 +365,17 @@ tree._root.data;                      // return: 'zero'
 tree.traverse('DF');                  // return: ['zero', 'one!', 'two!', four!']
 
 tree.clear();
-tree.isEmpty();                       // return: true   
+tree.isEmpty();                       // return: true
+
+// create a callback function for the 'change' event
+var listener = function(e) {
+  console.log(e.data, e.triggeredBy);
+};
+// add the callback for the 'change' event
+tree.addEventListener('change', listener);
+tree.insert('eight', 'three!', 'BF');
+// remove the callback for the 'change' event
+tree.removeEventListener('change', listener);   
 ```
 
 
@@ -381,6 +399,14 @@ var comapreFunc = function(a, b)  {
 // and a function for checking the equality between nodes
 // If the compareFunc is undefined, the default function would be same as above.
 var tree = new BinarySearchTree(10, compareFunc);
+```
+Add & Remove event callbacks
+You can add or remove event callbacks using addEventListener() function.
+For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
+The callback provides an event object which has 2 properties: data<Node>, triggeredBy<String>['insert', 'delete', 'clear']
+```javascript
+tree.addEventListener('change', callback);
+tree.removeEventListener('change', callback);
 ```
 Examples:
 ```javascript
@@ -421,6 +447,16 @@ tree._root;                           // return: undefined
 tree.traverse('Pre-order');           // return: undefined
 tree.delete(0);                       // return: undefined (0 is not in the binary search tree)
 tree.search(10);                      // return: undefined (The binary search tree is empty)
+
+// create a callback function for the 'change' event
+var listener = function(e) {
+  console.log(e.data, e.triggeredBy);
+};
+// add the callback for the 'change' event
+tree.addEventListener('change', listener);
+tree.insert(100);
+// remove the callback for the 'change' event
+tree.removeEventListener('change', listener);
 ```
 
 
@@ -454,6 +490,14 @@ var heap = new Heap(10, compareFunc, 'MinHeap');
 // If you want to have a max heap:
 var anotherHeap = new Heap([1, 2, 3, 4, 5], compareFunc, 'MaxHeap');
 ```
+Add & Remove event callbacks
+You can add or remove event callbacks using addEventListener() function.
+For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
+The callback provides an event object which has 2 properties: data<Node>, index<Number>, triggeredBy<String>['insert', 'deleteRoot', 'clear']
+```javascript
+tree.addEventListener('change', callback);
+tree.removeEventListener('change', callback);
+```
 Examples:
 ```javascript
 var comapreFunc = function(a, b)  {
@@ -485,4 +529,14 @@ heap.isEmpty();                       // return: false
 heap.clear();
 heap.getRoot();                       // return: undefined (The heap is empty)
 heap.isEmpty();                       // return: true
+
+// create a callback function for the 'change' event
+var listener = function(e) {
+  console.log(e.data, e.index, e.triggeredBy);
+};
+// add the callback for the 'change' event
+heap.addEventListener('change', listener);
+heap.insert(500);
+// remove the callback for the 'change' event
+heap.removeEventListener('change', listener);   
 ```
