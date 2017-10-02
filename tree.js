@@ -117,7 +117,7 @@ Tree.prototype.traverse = function(traversal, func) {
     }
 
     return order;
-  } 
+  }
 };
 
 /**
@@ -156,6 +156,13 @@ Tree.prototype.insert = function(data, parentData, traversal) {
     } else {
       parent.children.push(child);
       child.parent = parent;
+
+      if (_eventCallbacks.hasOwnProperty('change')) {
+         _eventCallbacks.change.forEach(function(callback) {
+           callback({data: child, triggeredBy: 'insert'});
+         });
+       }
+
       return child;
     }
   } else {
@@ -216,6 +223,11 @@ Tree.prototype.delete = function(data, parentData, traversal) {
       }
     }
     if (childIndex !== undefined) {
+      if (_eventCallbacks.hasOwnProperty('change')) {
+         _eventCallbacks.change.forEach(function(callback) {
+           callback({data: removedNode, triggeredBy: 'delete'});
+         });
+       }
       return removedNode;
     } else {
       console.warn('Cannot find the child node with the given data.');
@@ -257,6 +269,12 @@ Tree.prototype.isEmpty = function() {
 Tree.prototype.clear = function() {
   this._root.children.length = 0;
   this._root = undefined;
+
+  if (_eventCallbacks.hasOwnProperty('change')) {
+     _eventCallbacks.change.forEach(function(callback) {
+       callback({data: undefined, triggeredBy: 'clear'});
+     });
+   }
 };
 
 /**
@@ -276,6 +294,12 @@ Tree.prototype.addToRoot = function(data) {
     this._root.parent = root;
     this._root = root;
   }
+
+  if (_eventCallbacks.hasOwnProperty('change')) {
+     _eventCallbacks.change.forEach(function(callback) {
+       callback({data: root, triggeredBy: 'addToRoot'});
+     });
+   }
 };
 
 module.exports = Tree;

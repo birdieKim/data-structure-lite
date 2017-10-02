@@ -172,7 +172,14 @@ BinarySearchTree.prototype.insert = function(data, node, level) {
       return node;
     }
   } else {
-    return new BinaryTreeNode(data);
+    var insertedNode = new BinaryTreeNode(data);
+    if (_eventCallbacks.hasOwnProperty('change')) {
+       _eventCallbacks.change.forEach(function(callback) {
+         callback({data: insertedNode, triggeredBy: 'insert'});
+       });
+     }
+
+    return insertedNode;
   }
 };
 
@@ -206,12 +213,24 @@ BinarySearchTree.prototype.delete = function(data, node, isFound, level) {
     } else if (this._compare(data, node.data) === 0) {
       isFound = true;
       if (node.left === null) {  // if the node has one right child or no child
+        if (_eventCallbacks.hasOwnProperty('change')) {
+           _eventCallbacks.change.forEach(function(callback) {
+             callback({data: node, triggeredBy: 'delete'});
+           });
+         }
+
         if (node === this._root) {
           this.clear();
         }
 
         return node.right;
       } else if (node.right === null) {  // if the node has one left child
+        if (_eventCallbacks.hasOwnProperty('change')) {
+           _eventCallbacks.change.forEach(function(callback) {
+             callback({data: node, triggeredBy: 'delete'});
+           });
+         }
+
         if (node === this._root) {
           this.clear();
         }
@@ -310,6 +329,12 @@ BinarySearchTree.prototype.isEmpty = function() {
 BinarySearchTree.prototype.clear = function() {
   this._root = undefined;
   _returnArray.length = 0;
+
+  if (_eventCallbacks.hasOwnProperty('change')) {
+     _eventCallbacks.change.forEach(function(callback) {
+       callback({data: this._root, triggeredBy: 'clear'});
+     });
+   }
 };
 
 module.exports = BinarySearchTree;

@@ -68,18 +68,43 @@ Heap.prototype.removeEventListener = function(eventName, callback) {
 Heap.prototype.insert = function(data) {
   if (this.isEmpty()) {
     this._heapArray.push(data);
+    if (_eventCallbacks.hasOwnProperty('change')) {
+       _eventCallbacks.change.forEach(function(callback) {
+         callback({data: data, index: 0, triggeredBy: 'insert'});
+       });
+     }
   } else {
     this._heapArray.push(data);
     var i = this._heapArray.length - 1;
 
+    if (_eventCallbacks.hasOwnProperty('change')) {
+       _eventCallbacks.change.forEach(function(callback) {
+         callback({data: data, index: i, triggeredBy: 'insert'});
+       });
+     }
+
     if (this._type === 'MinHeap') {
-      while (i > 0 && this._heapArray[_getParentIndex(i)] > this._heapArray[i]) { // jscs:disable
+      while (i > 0 && this._compare(this._heapArray[_getParentIndex(i)], this._heapArray[i]) > 0) { // jscs:disable
         _swap.call(this, _getParentIndex(i), i);
+        var callbackData = this._heapArray[i];
+
+        if (_eventCallbacks.hasOwnProperty('change')) {
+           _eventCallbacks.change.forEach(function(callback) {
+             callback({data: callbackData, index: i, triggeredBy: 'insert'});
+           });
+         }
         i = _getParentIndex(i);
       }
     } else if (this._type === 'MaxHeap') {
-      while (i > 0 && this._heapArray[_getParentIndex(i)] < this._heapArray[i]) { // jscs:disable
+      while (i > 0 && this._compare(this._heapArray[_getParentIndex(i)], this._heapArray[i]) < 0) { // jscs:disable
         _swap.call(this, _getParentIndex(i), i);
+        var callbackData = this._heapArray[i];
+
+        if (_eventCallbacks.hasOwnProperty('change')) {
+           _eventCallbacks.change.forEach(function(callback) {
+             callback({data: callbackData, index: i, triggeredBy: 'insert'});
+           });
+         }
         i = _getParentIndex(i);
       }
     }
@@ -95,19 +120,21 @@ Heap.prototype.insert = function(data) {
  */
 Heap.prototype.deleteRoot = function() {
   var root;
-  if (this.isEmpty()) {
-    return root;
-  } else if (this._heapArray.length === 1) {
+  if (this._heapArray.length === 1) {
     root = this._heapArray[0];
     this.clear();
-
-    return root;
-  } else {
+  } else if (!this.isEmpty()) {
     root = this._heapArray.splice(0, 1);
     this.heapify(0);
-
-    return root;
   }
+
+  if (_eventCallbacks.hasOwnProperty('change')) {
+     _eventCallbacks.change.forEach(function(callback) {
+       callback({data: root, index: 0, triggeredBy: 'deleteRoot'});
+     });
+   }
+
+  return root;
 };
 
 /**
@@ -184,12 +211,10 @@ Heap.prototype.heapify = function(index) {
   var biggest = index;
 
   if (this._type === 'MinHeap') {
-    if (left < this._heapArray.length &&
-        this._heapArray[left] < this._heapArray[index]) {
+    if (left < this._heapArray.length && this._compare(this._heapArray[left], this._heapArray[index]) < 0) {
       smallest = left;
     }
-    if (right < this._heapArray.length &&
-        this._heapArray[right] < this._heapArray[smallest]) {
+    if (right < this._heapArray.length && this._compare(this._heapArray[right], this._heapArray[smallest]) < 0) {
       smallest = right;
     }
     if (smallest != index) {
@@ -197,12 +222,10 @@ Heap.prototype.heapify = function(index) {
       this.heapify(smallest);
     }
   } else {
-    if (left < this._heapArray.length &&
-        this._heapArray[left] > this._heapArray[index]) {
+    if (left < this._heapArray.length && this._compare(this._heapArray[left], this._heapArray[index]) > 0) {
       biggest = left;
     }
-    if (right < this._heapArray.length &&
-        this._heapArray[right] > this._heapArray[biggest]) {
+    if (right < this._heapArray.length && this._compare(this._heapArray[right], this._heapArray[biggest]) > 0) {
       biggest = right;
     }
     if (biggest != index) {
@@ -250,6 +273,12 @@ Heap.prototype.isEmpty = function() {
  */
 Heap.prototype.clear = function() {
   this._heapArray.length = 0;
+
+  if (_eventCallbacks.hasOwnProperty('change')) {
+     _eventCallbacks.change.forEach(function(callback) {
+       callback({data: undefined, index: 0, triggeredBy: 'clear'});
+     });
+   }
 };
 
 module.exports = Heap;
