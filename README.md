@@ -1,26 +1,26 @@
 # Data Structure Lite
-Data Structure Lite is a JavaScript library for data structure focused on a few main functions.
+**Data Structure Lite** is a JavaScript library for data structure focused on a few main functions.
 It supports data structures as follows: queue, priority queue, stack, linked list, doubly linked list, tree, binary search tree, heap. Each data structure can be used as an independent module. The data visualisation for Tree, Binary Search Tree and Heap is being prepared.
 
 ## Getting Started
 ### Installing
-Install with npm:
+**Install with npm:**
 ```
 npm install data-structure-lite
 ```
-Import into your file (you can download the minimized js file at: [github.com/birdieKim/data-structure-lite](github.com/birdieKim/data-structure-lite)):
+**Import into your file** (you can download the minimized js file at: [github.com/birdieKim/data-structure-lite](github.com/birdieKim/data-structure-lite)):
 ```html
 <script type="text/javascript" src="/path/to/data-structure-lite.min.js"></script>
 ```
 ### Usage
-If you need a whole library:
+If you need **a whole library**:
 ```javascript
 var DSLite = require('data-structure-lite');
 
 // then you can use each module
 var queue = new DSLite.Queue();
 ```
-If you need a certain module in this library:
+If you need **a certain module** in this library:
 ```javascript
 // An example of queue
 var Queue = require('data-structure-lite/queue');
@@ -48,23 +48,23 @@ var Heap = require('data-structure-lite/heap');
 ```
 
 ### Running Unit Tests
-If you want to run the test:
+If you want to **run the test**:
 ```
 npm run test
 ```
 
 ### Exporting
-If you want to export a whole library to a minimized file:
+If you want to **export a whole library** to a minimized file:
 ```
 npm run prod
 ```
 Then, you will get data-structure-lite.min.js file in 'dist' folder.
 
-If you want to export only a certain module to a minimized file:
+If you want to **export only a certain module** to a minimized file:
 ```
 npm run prod_queue
 ```
-Then, you will get queue.min.js file.
+Then, you will get *queue.min.js* file.
 Exporting other modules works in the same way as below:
 ```
 npm run prod_priorityQueue
@@ -92,7 +92,7 @@ npm run prod_heap
 
 
 ### Queue
-Create a queue:
+**Create a queue:**
 ```javascript
 var queue = new Queue();
 ```
@@ -101,7 +101,7 @@ If you have a data for the first element in the queue:
 // If you have 10 as the first element for the queue
 var queue = new Queue(10);
 ```
-Examples:
+**Examples:**
 ```javascript
 var queue = new Queue();
 
@@ -120,11 +120,11 @@ queue.dequeue();      // return: undefined
 
 ------------
 ### Priority Queue
-Create a priority queue:
+**Create a priority queue:**
 ```javascript
 var pqueue = new PriorityQueue();
 ```
-Examples:
+**Examples:**
 ```javascript
 var pqueue = new PriorityQueue();
 
@@ -147,7 +147,7 @@ pqueue.enqueue('Bugs', -1);   // return: undefined (the priority passed in is no
 
 ------------
 ### Stack
-Create a stack:
+**Create a stack:**
 ```javascript
 var stack = new Stack();
 ```
@@ -156,7 +156,7 @@ If you have a data for the first element in the stack:
 // If you have 10 as the first element for the stack
 var stack = new Stack(10);
 ```
-Examples:
+**Examples:**
 ```javascript
 var stack = new Stack();
 
@@ -188,7 +188,7 @@ stack.isEmpty();    // return: true
 
 ------------
 ### Linked List
-Create a linked list:
+**Create a linked list:**
 ```javascript
 var linkedList = new LinkedList();
 ```
@@ -197,7 +197,7 @@ If you have a data for the first data in the list:
 // If you have 10 as the first data for the list
 var linkedList = new LinkedList(10);
 ```
-Examples:
+**Examples:**
 ```javascript
 var linkedList = new LinkedList();
 
@@ -230,7 +230,7 @@ linkedList.isEmpty();               // return: true
 
 ------------
 ### Doubly Linked List
-Create a doubly linked list:
+**Create a doubly linked list:**
 ```javascript
 var doublyLinkedList = new DoublyLinkedList();
 ```
@@ -239,7 +239,7 @@ If you have a data for the first data in the list:
 // If you have 10 as the first data for the list
 var doublyLinkedList = new DoublyLinkedList(10);
 ```
-Examples:
+**Examples:**
 ```javascript
 var doublyLinkedList = new doublyLinkedList();
 
@@ -287,7 +287,7 @@ doublyLinkedList.isEmpty();           // return: true
 
 ------------
 ### Tree
-Create a tree:
+**Create a tree:**
 ```javascript
 var tree = new Tree();
 ```
@@ -307,7 +307,8 @@ var equalFunc = function(a, b)  {
 // If the equalFunc is undefined, the default function would be same as above.
 var tree = new Tree(10, 2, equalFunc);
 ```
-Add & Remove event callbacks
+**Add & Remove event callbacks**
+
 You can add or remove event callbacks using addEventListener() function.
 For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
 The callback provides an event object which has 2 properties: data<Node>, triggeredBy<String>['insert', 'delete', 'clear', 'addToRoot']
@@ -315,7 +316,7 @@ The callback provides an event object which has 2 properties: data<Node>, trigge
 tree.addEventListener('change', callback);
 tree.removeEventListener('change', callback);
 ```
-Examples:
+**Examples:**
 ```javascript
 var equalFunc = function(a, b)  {
   if (a === b) {
@@ -381,7 +382,7 @@ tree.removeEventListener('change', listener);
 
 ------------
 ### Binary Search Tree
-Create a binary search tree:
+**Create a binary search tree:**
 ```javascript
 var tree = new BinarySearchTree();
 ```
@@ -400,7 +401,8 @@ var comapreFunc = function(a, b)  {
 // If the compareFunc is undefined, the default function would be same as above.
 var tree = new BinarySearchTree(10, compareFunc);
 ```
-Add & Remove event callbacks
+**Add & Remove event callbacks**
+
 You can add or remove event callbacks using addEventListener() function.
 For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
 The callback provides an event object which has 2 properties: data<Node>, triggeredBy<String>['insert', 'delete', 'clear']
@@ -464,7 +466,7 @@ tree.removeEventListener('change', listener);
 
 ------------
 ### Heap
-Create a heap:
+**Create a heap:**
 ```javascript
 var heap = new Heap();
 ```
@@ -490,7 +492,8 @@ var heap = new Heap(10, compareFunc, 'MinHeap');
 // If you want to have a max heap:
 var anotherHeap = new Heap([1, 2, 3, 4, 5], compareFunc, 'MaxHeap');
 ```
-Add & Remove event callbacks
+**Add & Remove event callbacks**
+
 You can add or remove event callbacks using addEventListener() function.
 For now, the library supports only 'change' event which is occurred whenever data is changed in the tree.
 The callback provides an event object which has 2 properties: data<Node>, index<Number>, triggeredBy<String>['insert', 'deleteRoot', 'clear']
