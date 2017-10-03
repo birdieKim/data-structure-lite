@@ -85,27 +85,30 @@ Heap.prototype.insert = function(data) {
 
     if (this._type === 'MinHeap') {
       while (i > 0 && this._compare(this._heapArray[_getParentIndex(i)], this._heapArray[i]) > 0) { // jscs:disable
-        _swap.call(this, _getParentIndex(i), i);
         var callbackData = this._heapArray[i];
+        var parent = _getParentIndex(i);
+        _swap.call(this, parent, i);
 
         if (_eventCallbacks.hasOwnProperty('change')) {
            _eventCallbacks.change.forEach(function(callback) {
-             callback({data: callbackData, index: i, triggeredBy: 'insert'});
+             callback({data: callbackData, index: parent, triggeredBy: 'insert'});
            });
          }
-        i = _getParentIndex(i);
+        i = parent;
       }
     } else if (this._type === 'MaxHeap') {
       while (i > 0 && this._compare(this._heapArray[_getParentIndex(i)], this._heapArray[i]) < 0) { // jscs:disable
-        _swap.call(this, _getParentIndex(i), i);
         var callbackData = this._heapArray[i];
+        var parent = _getParentIndex(i);
+        _swap.call(this, parent, i);
 
         if (_eventCallbacks.hasOwnProperty('change')) {
            _eventCallbacks.change.forEach(function(callback) {
-             callback({data: callbackData, index: i, triggeredBy: 'insert'});
+             console.log('insert callback', parent);
+             callback({data: callbackData, index: parent, triggeredBy: 'insert'});
            });
          }
-        i = _getParentIndex(i);
+        i = parent;
       }
     }
   }
