@@ -45,17 +45,46 @@ qunit.test('Tree test', function(assert) {
   array = tree.traverse('DF', function(node) {});
   assert.deepEqual(array, ['one', 'two', 'five', 'six', 'three', 'four', 'seven']); // jscs:disable
 
+  var listener = function(e) {
+    assert.equal(e.data.data, 'eight');
+    assert.equal(e.triggeredBy, 'insert');
+  };
+  tree.addEventListener('change', listener);
   assert.equal(tree.insert('eight', 'three', 'BF').data, 'eight');
+  tree.removeEventListener('change', listener);
+
   array = tree.traverse('BF');
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'eight', 'seven']); // jscs:disable
 
+
+  listener = function(e) {
+    assert.equal(e.data, undefined);
+    assert.equal(e.triggeredBy, 'delete');
+  };
+  tree.addEventListener('change', listener);
   assert.equal(tree.delete('eight', 'ten', 'BF'), undefined);
+  tree.removeEventListener('change', listener);
+
+  listener = function(e) {
+    assert.equal(e.data.data, 'eight');
+    assert.equal(e.triggeredBy, 'delete');
+  };
+  tree.addEventListener('change', listener);
   assert.equal(tree.delete('eight', 'three', 'BF').data, 'eight');
+  tree.removeEventListener('change', listener);
+
   array = tree.traverse('BF');
   assert.deepEqual(array, ['one', 'two', 'three', 'four', 'five', 'six', 'seven']); // jscs:disable
 
+  listener = function(e) {
+    assert.equal(e.data.data, 'zero');
+    assert.equal(e.triggeredBy, 'addToRoot');
+  };
+  tree.addEventListener('change', listener);
   tree.addToRoot('zero');
   assert.equal(tree._root.data, 'zero');
+  tree.removeEventListener('change', listener);
+
   array = tree.traverse('BF');
   assert.deepEqual(array, ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven']); // jscs:disable
 
@@ -64,7 +93,13 @@ qunit.test('Tree test', function(assert) {
   array = tree.traverse('DF');
   assert.deepEqual(array, ['zero', 'one', 'two', 'five', 'six', 'three', 'four', 'seven']);
 
+  listener = function(e) {
+    assert.equal(e.data, undefined);
+    assert.equal(e.triggeredBy, 'clear');
+  };
+  tree.addEventListener('change', listener);
   tree.clear();
+  tree.removeEventListener('change', listener);
   assert.equal(tree.isEmpty(), true);
 
 });

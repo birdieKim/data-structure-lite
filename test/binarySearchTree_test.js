@@ -21,9 +21,22 @@ qunit.test('Binary Search Tree test', function(assert) {
 
   assert.deepEqual(tree.traverse('In-order'), [5, 7, 10, 15, 20, 25]);
 
+  var listener = function(e) {
+    assert.equal(e.data.data, 3);
+    assert.equal(e.triggeredBy, 'insert');
+  };
+  tree.addEventListener('change', listener);
   assert.equal(tree.insert(3).data, 3);
+  tree.removeEventListener('change', listener);
 
+  listener = function(e) {
+    assert.equal(e.data.data, tree._root.data);
+    assert.equal(e.triggeredBy, 'delete');
+  };
+  tree.addEventListener('change', listener);
   tree.delete(10);
+  tree.removeEventListener('change', listener);
+
   assert.equal(tree.delete(50), undefined);
 
   assert.deepEqual(tree.traverse('Pre-order'), [15, 5, 3, 7, 20, 25]);
@@ -38,7 +51,14 @@ qunit.test('Binary Search Tree test', function(assert) {
   assert.equal(tree.findMinNode().data, 3);
   assert.equal(tree.findMaxNode().data, 25);
 
+  listener = function(e) {
+    assert.equal(e.data, undefined);
+    assert.equal(e.triggeredBy, 'clear');
+  };
+  tree.addEventListener('change', listener);
   tree.clear();
+  tree.removeEventListener('change', listener);
+
   assert.equal(tree.isEmpty(), true);
   assert.equal(tree._root, undefined);
   assert.equal(tree.traverse('Pre-order'), undefined);
